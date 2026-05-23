@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rifas Solidarias</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- GLOBAL -->
+    <link rel="stylesheet" th:href="@{/css/layout-tienda.css}">
+
+    <!-- ESPECÍFICO -->
+    <link rel="stylesheet" th:href="@{/css/rifas/lista.css}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div th:replace="~{fragments/layout-tienda :: navbar}"></div>
+
+<!-- 🔥 CONTENIDO PRINCIPAL -->
+<main class="flex-fill">
+
+    <div class="container rifas-wrapper">
+
+        <h1 class="titulo-seccion">Rifas Solidarias</h1>
+
+        <hr>
+
+        <div id="contenedor-rifas" class="row g-4"></div>
+
+    </div>
+
+</main>
+
+<!-- SCRIPT -->
+<script>
+
+fetch("/api/rifas")
+.then(res => res.json())
+.then(data => {
+
+    const contenedor = document.getElementById("contenedor-rifas");
+
+    if (data.length === 0) {
+        contenedor.innerHTML = "<p>No hay rifas activas actualmente.</p>";
+        return;
+    }
+
+    data.forEach(rifa => {
+
+        contenedor.innerHTML += `
+        <div class="col-md-6">
+
+            <div class="rifa-card">
+
+                ${rifa.imagenUrl ? `
+                <div class="rifa-img"
+                     style="background-image:url('${rifa.imagenUrl}')"></div>
+                ` : ""}
+
+                <div class="rifa-body">
+
+                    <h4 class="rifa-title">${rifa.titulo}</h4>
+
+                    <p class="rifa-desc">${rifa.descripcion}</p>
+
+                    <div class="rifa-meta">
+                        <span><b>ONG:</b> ${rifa.ongNombre}</span><br>
+                        <span><b>Programa:</b> ${rifa.programaNombre}</span>
+                    </div>
+
+                    <div class="rifa-info">
+                        <span>Ticket: S/ ${rifa.precioTicket}</span>
+                        <span>${rifa.ticketsVendidos}/${rifa.stockTickets} vendidos</span>
+                    </div>
+
+                    <div class="progress rifas-progress">
+                        <div class="progress-bar"
+                             style="width:${rifa.progresoPrograma}%"></div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            Progreso: ${rifa.progresoPrograma.toFixed(2)}%
+                        </small>
+
+                        <a class="btn btn-primary btn-sm"
+                           href="/rifas/${rifa.id}">
+                            Ver detalle
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        `;
+    });
+
+});
+
+</script>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/layout-tienda :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

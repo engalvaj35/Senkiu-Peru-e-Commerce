@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Programas Sociales</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ong/lista.css}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h1>Programas Sociales</h1>
+
+            <p>
+                Gestiona y visualiza los programas aprobados.
+            </p>
+        </div>
+
+        <a th:href="@{/ong/dashboard}"
+           class="btn-dashboard">
+
+            Volver al dashboard
+        </a>
+
+    </div>
+
+    <div class="actions">
+
+        <a th:href="@{/ong/programas/nuevo}"
+           class="btn-primary">
+
+            Registrar Nuevo Programa
+        </a>
+
+        <a th:href="@{/ong/solicitudes}"
+           class="btn-secondary">
+
+            Ver Solicitudes
+        </a>
+
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Objetivo (S/)</th>
+                <th>Monto Actual (S/)</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr th:each="programa : ${programas}">
+
+                <td th:text="${programa.id}"></td>
+
+                <td th:text="${programa.nombre}"></td>
+
+                <td th:text="${programa.descripcion}"></td>
+
+                <td th:text="${programa.objetivoMonto}"></td>
+
+                <td th:text="${programa.montoActual}"></td>
+
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(programas)}">
+
+                <td colspan="5" class="empty">
+                    No existen programas sociales registrados.
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

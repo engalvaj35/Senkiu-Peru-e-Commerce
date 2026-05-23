@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <title>Detalle de Rifa</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- SENKIU -->
+    <link rel="stylesheet" th:href="@{/css/rifas/detalle.css}">
+
+</head>
+
+<body>
+
+<div class="detalle-wrapper">
+
+    <a class="back-link" th:href="@{/rifas}">
+        ← Volver a rifas
+    </a>
+
+    <div id="detalle-rifa" class="rifa-container">
+        <p>Cargando rifa...</p>
+    </div>
+
+</div>
+
+<script>
+const csrfToken =
+    document.querySelector('meta[name="_csrf"]').getAttribute("content");
+
+const pathParts =
+    window.location.pathname.split("/");
+
+const rifaId =
+    pathParts[pathParts.length - 1];
+
+const contenedor =
+    document.getElementById("detalle-rifa");
+
+fetch(`/api/rifas/${rifaId}`)
+.then(res => {
+    if (!res.ok) throw new Error("No se pudo cargar la rifa.");
+    return res.json();
+})
+.then(rifa => {
+
+    let empresasHtml = "";
+
+    if (rifa.empresas && rifa.empresas.length > 0) {
+
+        rifa.empresas.forEach(empresa => {
+
+            empresasHtml += `
+                <div class="empresa-card">
+
+                    <p><b>Empresa:</b> ${empresa.empresaNombre}</p>
+                    <p><b>Producto:</b> ${empresa.productoNombre}</p>
+
+                    ${empresa.productoImagen ?
+                        `<img src="${empresa.productoImagen}" width="160">`
+                        : ""
+                    }
+
+                </div>
+            `;
+        });
+
+    } else {
+        empresasHtml = "<p>No hay empresas asociadas.</p>";
+    }
+
+    const porcentaje =
+        Number(rifa.progresoPrograma || 0).toFixed(2);
+
+    const porcentajeRifa =
+        Number(rifa.progresoRifa || 0).toFixed(2);
+
+    const disponibles =
+        rifa.stockTickets - rifa.ticketsVendidos;
+
+    contenedor.innerHTML = `
+
+        <div class="rifa-card">
+
+            <h1 class="rifa-title">${rifa.titulo}</h1>
+
+            ${rifa.imagenUrl ?
+                `<img class="rifa-img" src="${rifa.imagenUrl}">`
+                : ""
+            }
+
+            <p class="rifa-desc">${rifa.descripcion}</p>
+
+            <div class="rifa-meta">
+                <p><b>ONG:</b> ${rifa.ongNombre}</p>
+                <p><b>Programa:</b> ${rifa.programaNombre}</p>
+                <p><b>Estado:</b> ${rifa.estado}</p>
+                <p><b>Fecha fin:</b> ${rifa.fechaFin}</p>
+            </div>
+
+            <div class="rifa-stats">
+
+                <p><b>Tickets:</b> ${rifa.ticketsVendidos}/${rifa.stockTickets}</p>
+                <p><b>Disponibles:</b> ${disponibles}</p>
+
+                <p><b>Precio:</b> S/ ${rifa.precioTicket}</p>
+
+            </div>
+
+            <div class="progress-block">
+                <p>Progreso Programa: ${porcentaje}%</p>
+                <div class="bar">
+                    <div class="fill green" style="width:${porcentaje}%"></div>
+                </div>
+
+                <p>Progreso Rifa: ${porcentajeRifa}%</p>
+                <div class="bar">
+                    <div class="fill blue" style="width:${porcentajeRifa}%"></div>
+                </div>
+            </div>
+
+            <form action="/tickets/comprar" method="post" class="buy-form">
+
+                <input type="hidden" name="_csrf" value="${csrfToken}">
+                <input type="hidden" name="rifaId" value="${rifaId}">
+
+                <label><b>Cantidad:</b></label>
+
+                <input type="number"
+                       name="cantidad"
+                       min="1"
+                       max="${disponibles}"
+                       value="1"
+                       required>
+
+                <button type="submit">
+                    Comprar Tickets
+                </button>
+
+            </form>
+
+            <hr>
+
+            <h3>Empresas Asociadas</h3>
+
+            <div class="empresas">
+                ${empresasHtml}
+            </div>
+
+        </div>
+
+    `;
+})
+.catch(() => {
+    contenedor.innerHTML = `<p>Error cargando rifa.</p>`;
+});
+</script>
+
+</body>
+</html>

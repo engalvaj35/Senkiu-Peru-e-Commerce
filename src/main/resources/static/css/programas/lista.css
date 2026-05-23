@@ -1,0 +1,102 @@
+.programas-wrapper{
+    margin-top: 20px;
+}
+
+/* TITULO */
+.titulo-seccion{
+    font-weight: 800;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* GRID */
+.programas-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.programa-card{
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.programa-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+/* HEADER */
+.programa-header h2{
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.programa-categoria{
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* DESCRIPCION */
+.programa-desc{
+    font-size: 0.95rem;
+    color: #444;
+    margin: 12px 0;
+}
+
+/* META */
+.programa-meta{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.programa-meta .label{
+    display: block;
+    color: #777;
+    font-size: 0.8rem;
+}
+
+.programa-meta .value{
+    font-weight: 700;
+}
+
+.programa-meta .success{
+    color: #28a745;
+}
+
+/* PROGRESS */
+.barra-avance{
+    height: 8px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.barra-avance .progress-bar{
+    background: linear-gradient(90deg,#019bff,#00bc9b);
+}
+
+/* BOTON */
+.btn-donar{
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 14px;
+    background: linear-gradient(90deg,#019bff,#00bc9b);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-donar:hover{
+    opacity: 0.9;
+    transform: scale(1.02);
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Dashboard Empresa</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/empresa/dashboard.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard-wrapper">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="logo">
+                <h2>Senkiu Empresa</h2>
+                <p>Panel Empresarial</p>
+            </div>
+
+            <div class="company-card">
+
+                <h3 th:text="${empresa.nombre}"></h3>
+
+                <p>
+                    RUC:
+                    <span th:text="${empresa.ruc}"></span>
+                </p>
+
+                <p>
+                    Correo:
+                    <span th:text="${empresa.email}"></span>
+                </p>
+
+            </div>
+
+            <nav class="menu">
+
+                <a th:href="@{/empresa/productos-v2}"
+                    class="menu-item">
+                    Gestión de Productos
+                </a>
+
+                <a th:href="@{/empresa/ordenes}"
+                    class="menu-item">
+                    Gestión de Órdenes
+                </a>
+
+                <a th:href="@{/empresa/rifas/disponibles}"
+                    class="menu-item">
+                    Asociarse a Rifas
+                </a>
+
+                <a th:href="@{/empresa/rifas/mis-rifas}"
+                    class="menu-item">
+                    Mis Rifas Asociadas
+                </a>
+
+            </nav>
+
+        </div>
+
+        <a th:href="@{/}"
+        class="btn-home">
+
+            Volver al Inicio
+        </a>
+
+    </aside>
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+        <div class="topbar">
+
+            <div>
+
+                <span class="badge">
+                    Dashboard Empresarial
+                </span>
+
+                <h1>
+                    Bienvenido nuevamente
+                </h1>
+
+                <p>
+                    Gestiona tus productos, rifas y órdenes desde un solo lugar.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- STATS -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <span>
+                    Productos
+                </span>
+
+                <h2>
+                    Gestión
+                </h2>
+
+                <p>
+                    Administra productos y solicitudes.
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <span>
+                    Órdenes
+                </span>
+
+                <h2>
+                    Control
+                </h2>
+
+                <p>
+                    Supervisa estados y entregas.
+                </p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <span>
+                    Rifas
+                </span>
+
+                <h2>
+                    Colaboraciones
+                </h2>
+
+                <p>
+                    Participa en campañas solidarias.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- INFO PANEL -->
+
+        <section class="info-panel">
+
+            <div class="panel-card">
+
+                <h3>
+                    ¿Qué puedes hacer desde aquí?
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Registrar solicitudes de productos
+                    </li>
+
+                    <li>
+                        Gestionar estados de órdenes
+                    </li>
+
+                    <li>
+                        Actualizar entregas
+                    </li>
+
+                    <li>
+                        Visualizar información de clientes
+                    </li>
+
+                    <li>
+                        Asociarte a rifas solidarias
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

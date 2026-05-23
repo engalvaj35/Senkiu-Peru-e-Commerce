@@ -1,0 +1,393 @@
+
+:root {
+    --senkiu-cyan: #00B4CC;
+    --senkiu-teal: #00A3AC;
+    --senkiu-green: #009384;
+}
+
+/* Tipografía y color base del cuerpo */
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #333;
+}
+
+/* Atajos de color de texto */
+.text-senkiu { color: var(--senkiu-teal); }
+.text-senkiu-light { color: var(--senkiu-cyan); }
+.text-senkiu-dark { color: var(--senkiu-green); }
+
+/* Atajo de fondo con color principal */
+.bg-senkiu { background-color: var(--senkiu-teal); }
+
+/* Degradado reutilizado en rifas y footer */
+.bg-gradient-senkiu {
+    background: linear-gradient(90deg, var(--senkiu-cyan), var(--senkiu-teal), var(--senkiu-green));
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+
+/* Icono "S" junto al nombre en el navbar */
+.navbar-brand .logo-icon {
+    background-color: var(--senkiu-cyan);
+    color: white;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Enlaces del menú de navegación */
+.nav-link { color: #555; font-size: 0.95rem; margin: 0 5px; }
+.nav-link.active { color: var(--senkiu-teal); font-weight: 600; }
+
+/* =============================================
+   BOTONES
+   ============================================= */
+
+/* Botón principal con forma de píldora */
+.btn-senkiu-pill {
+    background-color: var(--senkiu-teal); color: white; border-radius: 50px;
+    padding: 8px 24px; font-weight: 500; border: 1px solid var(--senkiu-teal); transition: 0.3s;
+}
+.btn-senkiu-pill:hover { background-color: var(--senkiu-green); color: white; border-color: var(--senkiu-green); }
+
+/* Botón secundario (solo borde) con forma de píldora */
+.btn-outline-senkiu-pill {
+    background-color: transparent; color: var(--senkiu-teal); border: 1px solid var(--senkiu-teal);
+    border-radius: 50px; padding: 8px 24px; font-weight: 500; transition: 0.3s;
+}
+.btn-outline-senkiu-pill:hover { background-color: var(--senkiu-cyan); color: white; border-color: var(--senkiu-cyan); }
+
+/* =============================================
+   HERO
+   ============================================= */
+
+/* Contenedor principal del hero (altura y centrado) */
+.hero-section {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 6rem 0 4rem 0;
+}
+
+/* Carrusel de fondo posicionado detrás del texto */
+.hero-section .carousel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+.hero-section .carousel-inner, .hero-section .carousel-item { height: 100%; }
+
+/* Cada diapositiva del carrusel con imagen de fondo */
+.carousel-bg-slide {
+    width: 100%; height: 100%; background-size: cover; background-position: center;
+    background-repeat: no-repeat; position: relative;
+}
+
+/* Capa oscura sobre las imágenes para legibilidad del texto */
+.carousel-bg-slide::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+}
+
+/* Texto del hero por encima del carrusel */
+.hero-section .container { position: relative; z-index: 2; }
+
+/* Título principal del hero */
+.hero-title { font-weight: 700; font-size: 2.8rem; margin-bottom: 1rem; }
+
+/* Subtítulo / descripción del hero */
+.hero-subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; }
+
+/* Logo en el navbar */
+.navbar-logo { height: 45px; width: auto; object-fit: contain; }
+
+/* Logo en el hero (versión blanca) */
+.hero-logo { height: 60px; width: auto; margin-bottom: 1.5rem; object-fit: contain; }
+
+/* =============================================
+   COLECCIONES
+   ============================================= */
+
+/* Tarjetas de colección con imagen de fondo */
+.collection-card {
+    border-radius: 12px; overflow: hidden; height: 220px; position: relative;
+    background-size: cover; background-position: center;
+}
+
+/* Capa oscura en la parte inferior de las colecciones */
+.collection-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.1));
+}
+
+/* Texto y botón sobre las tarjetas de colección */
+.collection-content { position: absolute; bottom: 20px; left: 20px; color: white; z-index: 2; }
+
+/* Botón "Explorar" dentro de cada colección */
+.btn-collection {
+    background-color: var(--senkiu-teal); color: white; border-radius: 20px;
+    padding: 4px 16px; font-size: 0.85rem; border: none; margin-top: 8px;
+}
+
+/* =============================================
+   PRODUCTOS
+   ============================================= */
+
+/* Tarjeta de producto individual */
+.product-card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; position: relative; }
+
+/* Imagen de cada producto */
+.product-card img { height: 180px; object-fit: cover; width: 100%; }
+
+/* Etiqueta "¡Oferta!" en esquina superior */
+.badge-oferta {
+    position: absolute; top: 10px; left: 10px; background-color: var(--senkiu-cyan);
+    color: white; font-size: 0.75rem; padding: 3px 8px; border-radius: 12px;
+}
+
+/* Nombre de categoría encima del título del producto */
+.product-cat { color: var(--senkiu-teal); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+
+/* Título del producto (2 líneas máximo) */
+.product-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 8px 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Estrellas de valoración */
+.stars { color: #f5b041; font-size: 0.8rem; }
+
+/* Precio tachado (original) */
+.price-old { text-decoration: line-through; color: #999; font-size: 0.85rem; }
+
+/* Precio en oferta */
+.price-new { font-weight: 700; font-size: 1.1rem; }
+
+.price-old,
+.price-new {
+    display: block;
+}
+
+/* Botón "Añadir al carrito" */
+.btn-cart { background-color: var(--senkiu-teal); color: white; width: 100%; border-radius: 8px; border: none; padding: 8px 0; font-size: 0.9rem; }
+.btn-cart:hover { background-color: var(--senkiu-green); color: white; }
+
+/* =============================================
+   RIFAS
+   ============================================= */
+
+/* Fondo y padding de la sección de rifas */
+.rifas-section { padding: 4rem 0; color: white; }
+
+/* Tarjeta blanca que contiene cada rifa */
+.rifa-card { background: white; border-radius: 16px; overflow: hidden; color: #333; position: relative; }
+
+/* Imagen de cabecera dentro de la tarjeta de rifa */
+.rifa-img-header { height: 180px; background-size: cover; background-position: center; position: relative; }
+
+/* Capa con gradiente y texto sobre la imagen de la rifa */
+.rifa-img-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; color: white;
+}
+
+/* Barra de progreso de recaudación */
+.progress-custom { height: 8px; background-color: #e9ecef; border-radius: 10px; margin: 10px 0; }
+
+/* Relleno coloreado de la barra de progreso */
+.progress-bar-custom { background-color: var(--senkiu-teal); border-radius: 10px; }
+
+/* =============================================
+   PROGRAMAS SOCIALES
+   ============================================= */
+
+/* Tarjeta de programa social */
+.programa-card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
+
+/* Imagen del programa social */
+.programa-card img { height: 200px; width: 100%; object-fit: cover; }
+
+/* Etiqueta de tipo (producto, taller, curso) */
+.badge-prog {
+    position: absolute; top: 10px; left: 10px; color: white; font-size: 0.75rem;
+    padding: 4px 10px; border-radius: 20px; font-weight: 500;
+}
+
+/* Colores extra para las etiquetas de programa */
+.bg-purple { background-color: #8A2BE2; }
+.bg-orange { background-color: #FFA500; }
+
+/* =============================================
+   PLANES DE SUSCRIPCIÓN
+   ============================================= */
+
+/* Tarjeta de plan de suscripción */
+.plan-card { border: 1px solid #eaeaea; border-radius: 16px; overflow: hidden; height: 100%; }
+
+/* Cabecera de color de cada plan */
+.plan-header { padding: 20px; text-align: left; color: white; }
+.header-basic { background-color: var(--senkiu-cyan); }
+.header-pro { background-color: var(--senkiu-teal); }
+.header-premium { background-color: var(--senkiu-green); }
+
+/* Resaltado del plan Pro (más popular) */
+.plan-card.pro { border: 2px solid var(--senkiu-teal); transform: scale(1.02); z-index: 10; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+/* Etiqueta "MÁS POPULAR" */
+.plan-badge { background: transparent; color: white; font-size: 0.75rem; text-align: center; font-weight: bold; margin-bottom: 10px; display: block;}
+
+/* Lista de características de cada plan */
+.plan-features { padding: 20px; font-size: 0.9rem; }
+.plan-features li { margin-bottom: 12px; display: flex; align-items: center; }
+
+/* Icono de check en cada característica */
+.plan-features i { color: var(--senkiu-teal); margin-right: 10px; font-size: 1.1rem; }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+
+/* Espaciado general del footer */
+footer { padding: 4rem 0 2rem 0; color: white; }
+
+/* Enlaces del footer */
+footer a { color: white; text-decoration: none; opacity: 0.8; transition: 0.3s; }
+footer a:hover { opacity: 1; text-decoration: underline; }
+
+/* Línea separadora del footer */
+.footer-hr { border-color: rgba(255,255,255,0.2); margin: 2rem 0; }
+
+/* =============================================
+   UTILIDADES
+   ============================================= */
+
+/* Enlace de color teal para "Ver todo" */
+.link-teal { color: var(--senkiu-teal); text-decoration: none; font-weight: 500;}
+.link-teal:hover { text-decoration: underline; }
+
+/* Botones login/registro dentro del menú hamburguesa (solo móvil) */
+.mobile-auth { display: none; }
+.mobile-auth .btn { width: 100%; margin-bottom: 8px; text-align: center; }
+
+/* =============================================
+   RESPONSIVE — Pantallas ≤991px
+   ============================================= */
+@media (max-width: 991.98px) {
+    /* Mostrar botones de auth dentro del menú colapsado */
+    .mobile-auth { display: block; padding: 10px 0 0 0; border-top: 1px solid #eee; margin-top: 10px; }
+}
+
+@media (max-width: 575.98px) {
+    .stars {
+        font-size: 1rem;
+    }
+}
+
+/* =============================================
+   RESPONSIVE — Pantallas ≤767px
+   ============================================= */
+@media (max-width: 767.98px) {
+    /* Reducir altura mínima del hero */
+    .hero-section { min-height: auto; padding: 4rem 0 3rem 0; }
+
+    /* Reducir título del hero */
+    .hero-title { font-size: 1.7rem; }
+
+    /* Reducir subtítulo del hero */
+    .hero-subtitle { font-size: 0.9rem; }
+
+    /* Reducir logo del hero en móvil */
+    .hero-logo { height: 45px; }
+
+    /* Reducir altura de las tarjetas de colección */
+    .collection-card { height: 180px; }
+    .collection-content h5 { font-size: 1rem; }
+    .collection-content p { display: none; }
+
+    /* Reducir altura de imagen de producto */
+    .product-card img { height: 140px; }
+
+    /* Reducir altura del título de producto en móvil */
+    .product-title { font-size: 0.85rem; height: 44px; }
+
+    /* Reducir tamaño de precio */
+    .price-new { font-size: 1rem; }
+
+    /* Reducir imagen de cabecera de rifa */
+    .rifa-img-header { height: 150px; }
+
+    /* Reducir imagen de programa social */
+    .programa-card img { height: 160px; }
+
+    /* Quitar escala al plan Pro cuando se apilan */
+    .plan-card.pro { transform: scale(1); box-shadow: none; }
+
+    /* Reducir espaciado de rifas */
+    .rifas-section { padding: 3rem 0; }
+}
+
+/* =============================================
+   RESPONSIVE — Pantallas ≤575px
+   ============================================= */
+@media (max-width: 575.98px) {
+    /* Ajustar título del hero en pantallas muy pequeñas */
+    .hero-title { font-size: 1.4rem; }
+
+    /* Reducir más el subtítulo */
+    .hero-subtitle { font-size: 0.85rem; }
+
+    /* Botones de píldora más compactos */
+    .btn-senkiu-pill, .btn-outline-senkiu-pill { padding: 6px 16px; font-size: 0.85rem; }
+
+    /* Imagen de producto un poco más pequeña */
+    .product-card img { height: 120px; }
+
+    /* Título de producto sin límite fijo */
+    .product-title { height: auto; }
+
+    /* Cabeceras de planes con menos padding */
+    .plan-header { padding: 15px; }
+}
+
+/* =============================================
+   HERO RESPONSIVE MEJORADO
+   ============================================= */
+
+@media (max-width: 767.98px) {
+
+    .hero-section {
+        min-height: 380px;   /* antes era demasiado alto */
+        padding: 3rem 0 2rem 0;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-section .carousel {
+        height: 100%;
+    }
+
+    .carousel-bg-slide {
+        height: 380px; /* fuerza consistencia en móvil */
+    }
+
+    .hero-title {
+        font-size: 1.6rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        padding: 0 10px;
+    }
+
+    .hero-section .container {
+        padding: 0 1rem;
+    }
+}

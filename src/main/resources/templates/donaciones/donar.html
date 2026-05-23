@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Donar</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/donaciones/donar.css}">
+</head>
+
+<body>
+
+<div class="donar-wrapper">
+
+    <div class="donar-card">
+
+        <h2 class="donar-title">💙 Donar al programa</h2>
+
+        <form th:action="@{'/donaciones/nuevo/' + ${programaId}}" method="post">
+
+            <input type="hidden" name="programaId" th:value="${programaId}" />
+
+            <label class="label">Monto de donación</label>
+
+            <input type="number"
+                   step="0.01"
+                   name="monto"
+                   class="input"
+                   placeholder="Ej: 50.00"
+                   required />
+
+            <button type="submit" class="btn-donar">
+                Donar ahora
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

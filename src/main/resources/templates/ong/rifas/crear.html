@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Crear Rifa</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <meta name="_csrf"
+          th:content="${_csrf.token}">
+
+    <meta name="_csrf_header"
+          th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ong/rifa-crear.css}">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="form-card">
+
+        <div class="header">
+
+            <div>
+                <span class="badge">
+                    Nueva campaña solidaria
+                </span>
+
+                <h1>Crear Nueva Rifa</h1>
+
+                <p>
+                    Configura tu rifa y comienza a recaudar apoyo para tu programa social.
+                </p>
+            </div>
+
+            <a th:href="@{/ong/dashboard}"
+               class="btn-back">
+
+                Volver al dashboard
+            </a>
+
+        </div>
+
+        <form id="formRifa">
+
+            <div class="form-group">
+
+                <label>
+                    Programa social
+                </label>
+
+                <select id="programaId"
+                        required>
+
+                    <option value="">
+                        Seleccione un programa
+                    </option>
+
+                    <option th:each="p : ${programas}"
+                            th:value="${p.id}"
+                            th:text="${p.nombre}">
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Título
+                    </label>
+
+                    <input type="text"
+                           id="titulo"
+                           placeholder="Ej. Rifa Solidaria 2026"
+                           required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Precio ticket
+                    </label>
+
+                    <input type="number"
+                           id="precioTicket"
+                           placeholder="S/ 10.00"
+                           step="0.01"
+                           required>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Descripción
+                </label>
+
+                <textarea id="descripcion"
+                          placeholder="Describe la rifa y el impacto del apoyo recibido"
+                          required>
+
+                </textarea>
+
+            </div>
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Stock tickets
+                    </label>
+
+                    <input type="number"
+                           id="stockTickets"
+                           placeholder="Ej. 500"
+                           required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Fecha límite
+                    </label>
+
+                    <input type="datetime-local"
+                           id="fechaFin"
+                           required>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Imagen de la rifa
+                </label>
+
+                <label for="imagenFile"
+                    class="file-upload">
+
+                    <div class="upload-icon">
+                        ⬆
+                    </div>
+
+                    <div class="upload-text">
+
+                        <span>
+                            Seleccionar imagen
+                        </span>
+
+                        <small id="fileName">
+                            Ningún archivo seleccionado
+                        </small>
+
+                    </div>
+
+                </label>
+
+                <input type="file"
+                    id="imagenFile"
+                    accept="image/*"
+                    hidden>
+
+            </div>
+
+            <div class="actions">
+
+                <button type="submit">
+                    Crear Rifa
+                </button>
+
+                <a th:href="@{/ong/rifas}">
+                    Ver Rifas
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div id="toast"
+     class="toast">
+
+</div>
+
+<script>
+
+function showToast(message, type = "success") {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className =
+        `toast show ${type}`;
+
+    setTimeout(() => {
+
+        toast.className = "toast";
+
+    }, 3200);
+}
+
+</script>
+
+<script>
+document.getElementById("formRifa").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("programaId", document.getElementById("programaId").value);
+    formData.append("titulo", document.getElementById("titulo").value);
+    formData.append("descripcion", document.getElementById("descripcion").value);
+    formData.append("precioTicket", document.getElementById("precioTicket").value);
+    formData.append("stockTickets", document.getElementById("stockTickets").value);
+    formData.append("fechaFin", document.getElementById("fechaFin").value);
+
+    const file = document.getElementById("imagenFile").files[0];
+
+    if (file) {
+        formData.append("imagen", file);
+    }
+
+    const csrfToken =
+        document.querySelector("meta[name='_csrf']").content;
+
+    const csrfHeader =
+        document.querySelector("meta[name='_csrf_header']").content;
+
+    fetch("/api/ong/rifas", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+        headers: {
+            [csrfHeader]: csrfToken
+        }
+    })
+    .then(async res => {
+
+        if (res.ok) {
+
+            showToast("Rifa creada correctamente");
+
+            setTimeout(() => {
+
+                window.location.href = "/ong/rifas";
+
+            }, 1400);
+
+        } else {
+
+            const error = await res.text();
+
+            console.error(error);
+
+            showToast(error, "error");
+        }
+    });
+});
+</script>
+
+<script>
+
+const inputFile =
+    document.getElementById("imagenFile");
+
+const fileName =
+    document.getElementById("fileName");
+
+inputFile.addEventListener("change", function () {
+
+    if (this.files.length > 0) {
+
+        fileName.textContent =
+            this.files[0].name;
+
+    } else {
+
+        fileName.textContent =
+            "Ningún archivo seleccionado";
+    }
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aprobaciones</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet" th:href="@{/css/admin/aprobaciones.css}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div>
+
+            <h1>Centro de Aprobaciones</h1>
+
+            <p>
+                Revisión y gestión de solicitudes de productos y programas sociales.
+                Aquí puedes aprobar o rechazar contenido antes de su publicación.
+            </p>
+
+        </div>
+
+        <a class="btn-back" th:href="@{/admin/dashboard}">
+            ← Volver
+        </a>
+
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs">
+
+        <button class="tab active" onclick="showTab('productos', event)">
+            Productos
+        </button>
+
+        <button class="tab" onclick="showTab('programas', event)">
+            Programas Sociales
+        </button>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- PRODUCTOS -->
+    <!-- ========================= -->
+
+    <section id="productos" class="content-section active">
+
+        <div th:if="${solicitudesProducto == null or solicitudesProducto.isEmpty()}"
+            class="empty-state">
+
+            <h3>No hay productos registrados</h3>
+
+            <p>
+                Actualmente no existen solicitudes de productos pendientes o registradas en el sistema.
+            </p>
+
+        </div>
+
+        <div class="grid">
+
+            <div class="card" th:each="p : ${solicitudesProducto}">
+
+                <div class="card-top">
+
+                    <h3 th:text="${p.nombre}"></h3>
+
+                    <span class="status" th:text="${p.estado}"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p><strong>Empresa:</strong> <span th:text="${p.nombreEmpresa}"></span></p>
+                    <p><strong>Precio:</strong> S/ <span th:text="${p.precio}"></span></p>
+
+                    <div class="image-box">
+                        <img th:src="${p.imagenUrl}" />
+                    </div>
+
+                </div>
+
+                <div class="card-actions">
+
+                    <button class="btn success"
+                            th:if="${p.estado == 'PENDIENTE'}"
+                            th:onclick="'aprobarProducto(' + ${p.id} + ')'">
+                        Aprobar
+                    </button>
+
+                    <button class="btn danger"
+                            th:if="${p.estado == 'PENDIENTE'}"
+                            th:onclick="'rechazarProducto(' + ${p.id} + ')'">
+                        Rechazar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- PROGRAMAS -->
+    <!-- ========================= -->
+
+    <section id="programas" class="content-section">
+
+        <div th:if="${solicitudesPrograma == null or solicitudesPrograma.isEmpty()}"
+            class="empty-state">
+
+            <h3>No hay programas registrados</h3>
+
+            <p>
+                Actualmente no existen solicitudes de programas sociales en el sistema.
+            </p>
+
+        </div>
+
+        <div class="grid">
+
+            <div class="card" th:each="p : ${solicitudesPrograma}">
+
+                <div class="card-top">
+
+                    <h3 th:text="${p.titulo}"></h3>
+
+                    <span class="status" th:text="${p.estado.nombre}"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+                        <strong>ONG:</strong>
+                        <span th:text="${p.ong.nombre}"></span>
+                    </p>
+                    
+                    <p>
+                        <strong>Descripción:</strong>
+                        <span th:text="${p.descripcion}"></span>
+                    </p>
+
+                </div>
+
+                <div class="card-actions">
+
+                    <button class="btn success"
+                            th:if="${p.estado.nombre == 'PENDIENTE'}"
+                            th:onclick="'aprobarPrograma(' + ${p.id} + ')'">
+                        Aprobar
+                    </button>
+
+                    <button class="btn danger"
+                            th:if="${p.estado.nombre == 'PENDIENTE'}"
+                            th:onclick="'rechazarPrograma(' + ${p.id} + ')'">
+                        Rechazar
+                    </button>
+
+                    <span class="info"
+                          th:if="${p.estado.nombre != 'PENDIENTE'}">
+                        Estado: <span th:text="${p.estado.nombre}"></span>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+const token = document.querySelector('meta[name="_csrf"]').content;
+const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+/* =========================
+   TABS
+========================= */
+
+function activateTab(tabId) {
+
+    localStorage.setItem("aprobaciones-tab", tabId);
+
+    document.querySelectorAll('.content-section')
+        .forEach(el => el.classList.remove('active'));
+
+    document.querySelectorAll('.tab')
+        .forEach(el => el.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active');
+}
+
+function showTab(tabId, event) {
+    activateTab(tabId);
+    event.target.classList.add('active');
+}
+
+/* =========================
+   PRODUCTOS
+========================= */
+
+async function aprobarProducto(id) {
+
+    await fetch(`/admin/api/productos/solicitudes/${id}/aprobar`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+
+    location.reload();
+}
+
+async function rechazarProducto(id) {
+
+    await fetch(`/admin/api/productos/solicitudes/${id}/rechazar`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+
+    location.reload();
+}
+
+/* =========================
+   PROGRAMAS
+========================= */
+
+async function aprobarPrograma(id) {
+
+    await fetch(`/admin/api/programas/solicitudes/${id}/aprobar`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+
+    location.reload();
+}
+
+async function rechazarPrograma(id) {
+
+    await fetch(`/admin/api/programas/solicitudes/${id}/rechazar`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+
+    location.reload();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const savedTab = localStorage.getItem("aprobaciones-tab") || "productos";
+
+    activateTab(savedTab);
+
+    document.querySelector(`[onclick="showTab('${savedTab}', event)"]`)
+        ?.classList.add('active');
+});
+</script>
+
+</body>
+</html>

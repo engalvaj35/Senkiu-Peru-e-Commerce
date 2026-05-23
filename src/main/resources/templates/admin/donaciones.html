@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Donaciones</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin/donaciones.css}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div>
+            <h1>Donaciones Realizadas</h1>
+            <p>
+                Registro de todas las donaciones realizadas en la plataforma,
+                asociadas a programas sociales activos.
+            </p>
+        </div>
+
+        <a class="btn-back" th:href="@{/admin/dashboard}">
+            ← Volver al Dashboard
+        </a>
+
+    </header>
+
+    <!-- RESUMEN -->
+    <section class="summary-wrapper">
+
+        <div class="summary">
+
+            <div class="card">
+                <span>Total Donaciones</span>
+                <h2 th:text="${donaciones.size()}"></h2>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TABLA -->
+    <section class="table-container">
+
+        <div th:if="${donaciones == null || donaciones.isEmpty()}" class="empty-card">
+            <h2>No hay donaciones registradas</h2>
+            <p>Aún no se han realizado donaciones en la plataforma.</p>
+        </div>
+
+        <table th:if="${donaciones != null && !donaciones.isEmpty()}">
+
+            <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Programa</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="d : ${donaciones}">
+
+                <td th:text="${d.usuario.nombres}"></td>
+                <td th:text="${d.programa.nombre}"></td>
+
+                <td class="amount">
+                    S/ <span th:text="${d.monto}"></span>
+                </td>
+
+                <td th:text="${d.createdAt}"></td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
+
+</body>
+</html>

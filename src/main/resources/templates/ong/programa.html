@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Nueva Solicitud de Programa Social</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ong/programa.css}">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="form-card">
+
+        <div class="header">
+
+            <div>
+                <h1>Registrar Programa Social</h1>
+
+                <p>
+                    Completa la información para enviar tu solicitud.
+                </p>
+            </div>
+
+            <a th:href="@{/ong/dashboard}"
+               class="btn-dashboard">
+
+                Volver al dashboard
+            </a>
+
+        </div>
+
+        <form id="programForm"
+              th:action="@{/ong/programas/nuevo}"
+              th:object="${solicitudProgramaRequest}"
+              method="post">
+
+            <div class="form-group">
+
+                <label for="titulo">
+                    Título del Programa
+                </label>
+
+                <input type="text"
+                       id="titulo"
+                       th:field="*{titulo}"
+                       placeholder="Ej. Programa de apoyo alimentario"
+                       required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="descripcion">
+                    Descripción
+                </label>
+
+                <textarea id="descripcion"
+                          th:field="*{descripcion}"
+                          placeholder="Describe el propósito y alcance del programa"
+                          required>
+
+                </textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="categoriaId">
+                    Categoría
+                </label>
+
+                <select id="categoriaId"
+                        th:field="*{categoriaId}"
+                        required>
+
+                    <option value="">
+                        Seleccione una categoría
+                    </option>
+
+                    <option th:each="categoria : ${categorias}"
+                            th:value="${categoria.id}"
+                            th:text="${categoria.nombre}">
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="objetivoMonto">
+                    Objetivo de Recaudación (S/)
+                </label>
+
+                <input type="number"
+                       step="0.01"
+                       min="0"
+                       id="objetivoMonto"
+                       th:field="*{objetivoMonto}"
+                       placeholder="Ej. 5000"
+                       required>
+
+            </div>
+
+            <div class="actions">
+
+                <button type="submit"
+                    id="submitBtn">
+                    Enviar Solicitud
+                </button>
+
+                <a th:href="@{/ong/solicitudes}">
+                    Ver Solicitudes
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+const form =
+    document.getElementById("programForm");
+
+const submitBtn =
+    document.getElementById("submitBtn");
+
+form.addEventListener("submit", function () {
+
+    sessionStorage.setItem(
+        "programaSuccess",
+        "Solicitud enviada correctamente"
+    );
+
+    submitBtn.disabled = true;
+
+    submitBtn.innerHTML =
+        "Enviando solicitud...";
+
+    submitBtn.classList.add("loading");
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Sobre Nosotros</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" th:href="@{/css/layout-tienda.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout-tienda :: navbar}"></div>
+
+	<!-- HERO -->
+	<section class="hero-header hero-about text-white py-5 overflow-hidden">
+		<div class="container">
+			<div class="row align-items-center justify-content-between g-5">
+	
+				<div class="col-lg-7">
+					<h1 class="display-4 fw-bold">Somos Senkiu Perú</h1>
+					<p class="lead mt-4">
+						Una plataforma que conecta empresas, consumidores y organizaciones sociales para transformar cada compra en una oportunidad de generar impacto.
+					</p>
+					<p class="lead mt-4">
+						<b>Creemos que el comercio digital puede ir más allá de vender productos.</b> Puede convertirse en una herramienta para apoyar causas reales y construir relaciones más humanas entre marcas y personas.</p>
+					</p>
+				</div>
+	
+				<div class="col-lg-4 text-center d-none d-lg-block">
+					<img src="https://scontent.flim28-2.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEDp3sqdmPKvapVeJQ1-n33hsZXNZLq2rqGxlc1kurautcpMjWY7YMqgmyHxW_IHjZiTsbmVA6jVl0X-xKVgiPG&_nc_ohc=YAW7DZNe9LoQ7kNvwGZpqlw&_nc_oc=Ado54r9ZHy_szfJtH0jMf2kJ62Vvb3nzhg7C0vo2Vcx19zkG32PqROIAtKWlBSnD3qI&_nc_zt=23&_nc_ht=scontent.flim28-2.fna&_nc_gid=vA8q5Cz-WmsAQ__u1p210w&_nc_ss=7b2a8&oh=00_Af7TaMkrxDsYv83E1SvlngJmIlUNUtvEAioNufpyiGtF8A&oe=6A165B00" class="img-fluid rounded-circle shadow-lg position-relative" alt="Senkiu Perú" style="width: 100%; max-width: 320px; height: 320px; object-fit: cover; border: 6px;">	
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- INTRODUCCIÓN -->
+	<section class="py-5">
+		<div class="container">
+			<div class="row align-items-center g-5">
+				<div class="col-lg-6">
+					<img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop" class="img-fluid rounded-4 shadow-sm" alt="Sobre Senkiu">
+				</div>
+	
+				<div class="col-lg-6">
+					<h2 class="fw-bold mb-4">Una nueva forma de consumir</h2>
+	
+					<p class="text-secondary">
+						Senkiu Perú nace como una propuesta de comercio digital solidario,
+						donde las compras realizadas dentro de la plataforma generan beneficios
+						tanto para las empresas participantes como para organizaciones sociales.
+					</p>
+	
+					<p class="text-secondary">
+						Nuestro modelo integra la experiencia ecommerce con un propósito social,
+						permitiendo que los usuarios accedan a productos, servicios y beneficios
+						mientras contribuyen indirectamente al financiamiento de causas sociales.
+					</p>
+	
+					<p class="text-secondary">
+						Más que una tienda online, buscamos construir un ecosistema donde
+						el consumo tenga impacto positivo y donde las marcas puedan conectar
+						con las personas desde una propuesta más transparente y significativa.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	<!-- COMO FUNCIONA -->
+	<section class="bg-white py-5 border-top border-bottom">
+		<div class="container">
+			<div class="text-center mb-5">
+				<h2 class="fw-bold">¿Cómo funciona Senkiu?</h2>
+				<p class="text-secondary">Conectamos tres actores dentro de un mismo ecosistema digital.</p>
+			</div>
+	
+			<div class="row g-4">
+				<div class="col-md-4">
+					<div class="card border-0 shadow-sm h-100">
+						<div class="card-body text-center p-4">
+							<div class="mb-3">
+								<i class="bi bi-shop fs-1 text-warning"></i>
+							</div>
+							
+							<h4 class="fw-bold">Empresas Aliadas</h4>
+							<p class="text-secondary mb-0">Las marcas ofrecen productos, servicios y beneficios dentro de la plataforma mientras fortalecen su responsabilidad social.</p>
+						</div>
+					</div>
+				</div>
+	
+				<div class="col-md-4">
+	
+					<div class="card border-0 shadow-sm h-100">
+	
+						<div class="card-body text-center p-4">
+							<div class="mb-3">
+								<i class="bi bi-heart-pulse fs-1 text-danger"></i>
+							</div>
+							
+							<h4 class="fw-bold">Organizaciones Sociales</h4>	
+							<p class="text-secondary mb-0">Reciben apoyo económico generado a partir de las transacciones realizadas dentro del ecosistema Senkiu.</p>
+						</div>
+					</div>
+				</div>
+	
+				<div class="col-md-4">
+					<div class="card border-0 shadow-sm h-100">
+						<div class="card-body text-center p-4">
+							<div class="mb-3">
+								<i class="bi bi-people fs-1 text-primary"></i>
+							</div>
+	
+							<h4 class="fw-bold">Consumidores</h4>
+							<p class="text-secondary mb-0">Acceden a promociones y beneficios mientras participan en una experiencia de compra con impacto positivo.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- PROPÓSITO + RECLUTAMIENTO -->
+	<section class="py-5 bg-light">
+		<div class="container">
+			<div class="row g-4 align-items-stretch">
+	
+				<!-- PROPÓSITO -->
+				<div class="col-lg-8">
+					<div class="bg-white shadow-sm rounded-4 p-4 p-lg-5 h-100">
+						<div class="mb-5">
+							<h2 class="fw-bold">Nuestro propósito</h2>
+							<p class="text-secondary mb-0">Impulsar un modelo donde comprar también signifique contribuir.</p>
+						</div>
+	
+						<div class="d-flex flex-column gap-4">
+							<!-- ITEM - IMPACTO SOCIAL -->
+							<div class="d-flex align-items-start gap-4">
+								<div class="flex-shrink-0">
+									<div class="bg-success-subtle rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+										<i class="bi bi-globe2 fs-2 text-success"></i>
+									</div>
+								</div>
+	
+								<div>
+									<h5 class="fw-bold">Impacto social</h5>
+									<p class="text-secondary mb-0">Integramos mecanismos solidarios directamente dentro del proceso de compra digital para generar ayuda constante a organizaciones sociales.</p>
+								</div>
+							</div>
+							
+							
+							<!-- ITEM - VALOR PARA LAS MARCAS -->
+							<div class="d-flex align-items-start gap-4">
+								<div class="flex-shrink-0">
+									<div class="bg-warning-subtle rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+										<i class="bi bi-award fs-2 text-warning"></i>
+									</div>
+								</div>
+	
+								<div>
+									<h5 class="fw-bold">Valor para las marcas</h5>
+									<p class="text-secondary mb-0">Ayudamos a las empresas a fortalecer su presencia digital conectando sus ventas con iniciativas de responsabilidad social visibles y participativas.</p>
+								</div>
+							</div>
+							
+							
+							<!-- ITEM - CONSUMO CONSCIENTE -->
+							<div class="d-flex align-items-start gap-4">
+								<div class="flex-shrink-0">
+									<div class="bg-primary-subtle rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+										<i class="bi bi-stars fs-2 text-primary"></i>
+									</div>
+								</div>
+	
+								<div>
+									<h5 class="fw-bold">Consumo consciente</h5>
+									<p class="text-secondary mb-0">Promovemos una experiencia donde cada usuario pueda participar en acciones con impacto positivo mientras accede a beneficios y promociones.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- RECLUTAMIENTO -->
+				<div class="col-lg-4">
+					<div class="bg-danger rounded-4 shadow h-100 d-flex flex-column justify-content-center p-4 p-lg-5">
+						<div class="text-center">
+							<div class="mb-4">
+								<i class="bi bi-heart-fill display-3 text-light"></i>
+							</div>
+							
+							<h3 class="fw-bold text-light">Forma parte de Senkiu</h3>
+							<p class="text-light mt-3 mb-4">Únete a nuestro ecosistema solidario como empresa aliada u organización social y conecta tus iniciativas con una comunidad comprometida.</p>
+						</div>
+	
+						<!-- USUARIO AUTENTICADO -->
+						<div sec:authorize="hasRole('USER')">
+							<div class="d-grid gap-3">
+								<a href="/empresa/solicitud" class="text-decoration-none">
+									<button class="btn btn-light btn-lg w-100"><i class="bi bi-building me-2"></i> Solicitar Empresa</button>
+								</a>
+	
+								<a href="/ong/solicitud" class="text-decoration-none">
+									<button class="btn btn-light btn-lg w-100"><i class="bi bi-heart-pulse me-2"></i> Solicitar ONG</button>
+								</a>
+							</div>
+						</div>
+	
+						<!-- VISITANTE -->
+						<div sec:authorize="isAnonymous()">
+							<div class="d-grid gap-3">
+								<a href="/login" class="text-decoration-none">
+									<button class="btn btn-dark btn-lg w-100"><i class="bi bi-box-arrow-in-right me-2"></i> Iniciar sesión para continuar</button>
+								</a>
+							</div>
+	
+							<p class="small text-dark text-center mt-3 mb-0">Debes iniciar sesión para enviar una solicitud de empresa u organización.</p>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+<div th:replace="~{fragments/layout-tienda :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

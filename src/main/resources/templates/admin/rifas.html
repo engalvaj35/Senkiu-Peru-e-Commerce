@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rifas - Admin</title>
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet" th:href="@{/css/admin/rifas.css}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <header class="header">
+
+        <div>
+            <h1>Gestión de Rifas</h1>
+            <p>Administra rifas activas, rechazadas y revisa el estado de cada campaña solidaria.</p>
+        </div>
+
+        <div class="actions">
+            <a class="btn-back" th:href="@{/admin/dashboard}">
+                ← Dashboard
+            </a>
+
+            <a class="btn-secondary" th:href="@{/admin/rifas/pendientes}">
+                Revisar Pendientes
+            </a>
+        </div>
+
+    </header>
+
+    <section class="grid-section">
+
+        <div class="panel">
+            <h2>Rifas Activas</h2>
+            <div id="tabla-rifas-activas" class="grid"></div>
+        </div>
+
+        <div class="panel">
+            <h2>Rifas Rechazadas</h2>
+            <div id="tabla-rifas-rechazadas" class="grid"></div>
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+const token = document.querySelector('meta[name="_csrf"]').content;
+const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+async function cargarRifasActivas() {
+
+    const res = await fetch("/api/admin/rifas/activas");
+    const data = await res.json();
+
+    const cont = document.getElementById("tabla-rifas-activas");
+
+    cont.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        cont.innerHTML = `
+            <div class="empty-card">
+                <h3>No hay rifas activas</h3>
+                <p>No existen rifas en curso en este momento.</p>
+            </div>
+        `;
+        return;
+    }
+
+    data.forEach(rifa => {
+
+        const disponibles = rifa.stockTickets - rifa.ticketsVendidos;
+
+        cont.innerHTML += `
+            <div class="card">
+                <h3>${rifa.titulo}</h3>
+
+                <p><b>Programa:</b> ${rifa.programaNombre}</p>
+                <p><b>ONG:</b> ${rifa.ongNombre}</p>
+                <p><b>Tickets:</b> ${rifa.ticketsVendidos}/${rifa.stockTickets}</p>
+                <p><b>Disponibles:</b> ${disponibles}</p>
+                <p><b>Precio:</b> S/ ${rifa.precioTicket}</p>
+                <p><b>Estado:</b> ${rifa.estado}</p>
+
+                <a href="/admin/rifas/tickets?rifaId=${rifa.id}" class="btn">
+                    Ver Tickets
+                </a>
+            </div>
+        `;
+    });
+}
+
+async function cargarRifasRechazadas() {
+
+    const res = await fetch("/api/admin/rifas/rechazadas");
+    const data = await res.json();
+
+    const cont = document.getElementById("tabla-rifas-rechazadas");
+
+    cont.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        cont.innerHTML = `
+            <div class="empty-card">
+                <h3>No hay rifas rechazadas</h3>
+                <p>No existen registros de rifas rechazadas.</p>
+            </div>
+        `;
+        return;
+    }
+
+    data.forEach(rifa => {
+
+        cont.innerHTML += `
+            <div class="card rejected">
+                <h3>${rifa.titulo}</h3>
+
+                <p><b>Programa:</b> ${rifa.programaNombre}</p>
+                <p><b>ONG:</b> ${rifa.ongNombre}</p>
+                <p><b>Tickets:</b> ${rifa.ticketsVendidos}/${rifa.stockTickets}</p>
+                <p><b>Estado:</b> ${rifa.estado}</p>
+            </div>
+        `;
+    });
+}
+
+cargarRifasActivas();
+cargarRifasRechazadas();
+
+</script>
+
+</body>
+</html>

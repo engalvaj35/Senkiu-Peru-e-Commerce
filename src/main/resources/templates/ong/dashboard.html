@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Dashboard ONG</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/ong/dashboard.css}">
+
+</head>
+
+<body>
+
+<div class="dashboard-wrapper">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="brand">
+
+                <h2>Senkiu ONG</h2>
+
+                <p>
+                    Panel Solidario
+                </p>
+
+            </div>
+
+            <nav class="menu">
+
+                <a th:href="@{/ong/programas}"
+                   class="menu-item">
+
+                    📁 Mis Programas
+                </a>
+
+                <a th:href="@{/ong/solicitudes}"
+                   class="menu-item">
+
+                    📨 Solicitudes
+                </a>
+
+                <a th:href="@{/ong/programas/nuevo}"
+                   class="menu-item">
+
+                    ➕ Nuevo Programa
+                </a>
+
+                <a th:href="@{/ong/rifas}"
+                   class="menu-item">
+
+                    🎟️ Rifas
+                </a>
+
+                <a th:href="@{/ong/rifas/crear}"
+                   class="menu-item">
+
+                    ✨ Nueva Rifa
+                </a>
+
+            </nav>
+
+        </div>
+
+        <a th:href="@{/}"
+           class="btn-home">
+
+            Volver al Inicio
+        </a>
+
+    </aside>
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+        <div class="topbar">
+
+            <div>
+
+                <span class="badge">
+                    Dashboard ONG
+                </span>
+
+                <h1>
+                    Bienvenido nuevamente
+                </h1>
+
+                <p>
+                    Gestiona programas sociales, solicitudes y rifas solidarias desde un solo lugar.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- CARDS -->
+
+        <section class="cards-grid">
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    📁
+                </div>
+
+                <h3>
+                    Programas Sociales
+                </h3>
+
+                <p>
+                    Gestiona iniciativas activas y revisa programas aprobados para tu organización.
+                </p>
+
+                <span class="card-status">
+                    Módulo disponible
+                </span>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    📨
+                </div>
+
+                <h3>
+                    Solicitudes Enviadas
+                </h3>
+
+                <p>
+                    Consulta el estado actual de tus solicitudes pendientes o aprobadas.
+                </p>
+
+                <span class="card-status">
+                    Seguimiento activo
+                </span>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <div class="card-icon">
+                    🎟️
+                </div>
+
+                <h3>
+                    Rifas Solidarias
+                </h3>
+
+                <p>
+                    Administra campañas solidarias y revisa colaboraciones activas.
+                </p>
+
+                <span class="card-status">
+                    Gestión disponible
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- INFO PANEL -->
+
+        <section class="info-panel">
+
+            <div class="panel-card">
+
+                <h3>
+                    ¿Qué puedes hacer desde aquí?
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Registrar nuevos programas sociales
+                    </li>
+
+                    <li>
+                        Gestionar rifas solidarias
+                    </li>
+
+                    <li>
+                        Revisar solicitudes enviadas
+                    </li>
+
+                    <li>
+                        Monitorear campañas activas
+                    </li>
+
+                    <li>
+                        Centralizar la gestión de tu ONG
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

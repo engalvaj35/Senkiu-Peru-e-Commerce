@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+body{
+    font-family: system-ui, -apple-system, sans-serif;
+    background: linear-gradient(90deg, #019bff, #00bc9b);
+}

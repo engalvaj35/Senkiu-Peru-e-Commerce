@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --primary:#1e48ff;
+    --secondary:#1fbcdf;
+    --bg:#f4f7ff;
+    --shadow:0 15px 40px rgba(15,23,42,.08);
+    --radius:14px;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    margin: 0;
+}
+
+.page-wrapper {
+    padding: 35px;
+}
+
+/* HEADER */
+.header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:25px;
+}
+
+.header p {
+    color:#6b7280;
+    margin-top:6px;
+}
+
+.btn-back {
+    background: linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+    padding:10px 14px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.2s;
+}
+
+.btn-back:hover {
+    transform: translateY(-2px);
+}
+
+/* TABLE WRAPPER (arregla separación visual) */
+.table-wrapper {
+    background:white;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+
+/* TABLE */
+table {
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead {
+    background: linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+}
+
+th {
+    padding:14px;
+    text-align:left;
+}
+
+td {
+    padding:14px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+/* Código ticket */
+.code {
+    font-weight:700;
+    color:#1e48ff;
+}
+
+/* Estado */
+.status {
+    padding:4px 10px;
+    border-radius:999px;
+    background:#e0f2fe;
+    color:#0369a1;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* EMPTY STATE */
+.empty-state {
+    background: white;
+    margin-top: 20px;
+    padding: 40px;
+    text-align: center;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.empty-state h3 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+.empty-state p {
+    color: #6b7280;
+}

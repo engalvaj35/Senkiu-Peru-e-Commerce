@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tickets de Rifa</title>
+
+    <link rel="stylesheet" href="/css/admin/rifas-tickets.css">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <header class="header">
+
+        <div>
+            <h1>Tickets de la Rifa</h1>
+            <p>Listado completo de tickets vendidos y sus usuarios asociados.</p>
+        </div>
+
+        <a class="btn-back" href="/admin/rifas">
+            ← Gestión de Rifas
+        </a>
+
+    </header>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Código Ticket</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Rifa</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody id="tabla-tickets"></tbody>
+
+        </table>
+
+        <!-- EMPTY STATE -->
+        <div id="empty-state" class="empty-state" style="display:none;">
+            <h3>No hay tickets registrados</h3>
+            <p>Esta rifa aún no tiene compras realizadas.</p>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const rifaId = new URLSearchParams(window.location.search).get("rifaId");
+
+fetch(`/admin/api/rifas/${rifaId}/tickets`)
+.then(r => r.json())
+.then(data => {
+
+    const tabla = document.getElementById("tabla-tickets");
+    const empty = document.getElementById("empty-state");
+
+    tabla.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        empty.style.display = "block";
+        return;
+    }
+
+    empty.style.display = "none";
+
+    data.forEach(t => {
+
+        tabla.innerHTML += `
+        <tr>
+            <td class="code">${t.ticketCodigo ?? t.ticketId}</td>
+            <td>${t.usuarioNombre}</td>
+            <td>${t.usuarioEmail}</td>
+            <td>${t.rifaTitulo}</td>
+            <td>${t.fechaCompra.replace("T"," ")}</td>
+            <td><span class="status">${t.estado}</span></td>
+        </tr>`;
+    });
+
+});
+
+</script>
+
+</body>
+</html>

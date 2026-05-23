@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Confirmar Pago</title>
+
+    <style>
+
+        body{
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fb, #eef6ff);
+            display: flex;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        .container{
+            width: 100%;
+            max-width: 700px;
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .title{
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: #019bff;
+            margin-bottom: 20px;
+        }
+
+        .info p{
+            margin: 8px 0;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .info b{
+            color: #000;
+        }
+
+        .section-title{
+            font-weight: 700;
+            margin: 15px 0 10px;
+            color: #333;
+        }
+
+        .ticket{
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .ticket:last-child{
+            border-bottom: none;
+        }
+
+        .btn-pay{
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(90deg, #019bff, #00bc9b);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-pay:hover{
+            opacity: 0.9;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 class="title">Confirmar Pago</h1>
+
+    <!-- INFO PAGO -->
+    <div class="info">
+
+        <p><b>Pago ID:</b> <span th:text="${pago.id}"></span></p>
+
+        <p><b>Tipo:</b> <span th:text="${pago.tipo}"></span></p>
+
+        <p><b>Monto:</b> S/ <span th:text="${pago.monto}"></span></p>
+
+        <p><b>Estado:</b> <span th:text="${pago.estado.nombre}"></span></p>
+
+    </div>
+
+    <!-- TICKETS -->
+    <div th:if="${pago.tipo.name() == 'TICKET'}">
+
+        <h3 class="section-title">Tickets asociados</h3>
+
+        <div th:each="ticket : ${pago.tickets}" class="ticket">
+
+            Código: <span th:text="${ticket.codigo}"></span>
+            |
+            Estado: <span th:text="${ticket.estado.nombre}"></span>
+
+        </div>
+
+    </div>
+
+    <!-- BOTÓN -->
+    <form th:action="@{/api/pagos/confirmar/{id}(id=${pago.id})}"
+          method="post">
+
+        <button type="submit" class="btn-pay">
+            Confirmar Pago
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

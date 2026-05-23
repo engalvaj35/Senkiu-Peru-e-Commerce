@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        Mis Rifas Asociadas
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/empresa/mis-rifas.css}">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <span class="badge">
+                Empresa
+            </span>
+
+            <h1>
+                Mis Rifas Asociadas
+            </h1>
+
+            <p>
+                Visualiza las rifas en las que tu empresa participa y los productos asociados.
+            </p>
+
+        </div>
+
+        <div class="top-actions">
+
+            <a th:href="@{/empresa/dashboard}"
+               class="btn-secondary">
+
+                Dashboard
+            </a>
+
+            <a th:href="@{/empresa/rifas/disponibles}"
+               class="btn-primary">
+
+                Explorar Rifas
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENEDOR -->
+
+    <div id="contenedor-rifas"
+         class="rifas-grid">
+
+    </div>
+
+</div>
+
+<script>
+
+async function cargarRifas() {
+
+    const response =
+        await fetch("/api/empresa/rifas/mis-rifas");
+
+    const rifas =
+        await response.json();
+
+    const contenedor =
+        document.getElementById("contenedor-rifas");
+
+    contenedor.innerHTML = "";
+
+    if (rifas.length === 0) {
+
+        contenedor.innerHTML = `
+
+            <div class="empty-state">
+
+                <h2>
+                    No tienes rifas asociadas
+                </h2>
+
+                <p>
+                    Aún no participas en ninguna rifa solidaria.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    rifas.forEach(rifa => {
+
+        let empresasHtml = "";
+
+        if (rifa.empresas && rifa.empresas.length > 0) {
+
+            rifa.empresas.forEach(empresa => {
+
+                empresasHtml += `
+
+                    <div class="producto-card">
+
+                        <div class="producto-info">
+
+                            ${
+                                empresa.productoImagen
+                                ?
+                                `
+                                <img
+                                    src="${empresa.productoImagen}"
+                                    class="producto-image"
+                                >
+                                `
+                                :
+                                `
+                                <div class="producto-placeholder">
+                                    IMG
+                                </div>
+                                `
+                            }
+
+                            <div>
+
+                                <span class="mini-label">
+                                    Empresa
+                                </span>
+
+                                <h4>
+                                    ${empresa.empresaNombre}
+                                </h4>
+
+                                <span class="mini-label">
+                                    Producto Asociado
+                                </span>
+
+                                <p>
+                                    ${empresa.productoNombre}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                `;
+            });
+        }
+
+        contenedor.innerHTML += `
+
+            <div class="rifa-card">
+
+                <div class="rifa-image-wrapper">
+
+                    ${
+                        rifa.imagenUrl
+                        ?
+                        `
+                        <img
+                            src="${rifa.imagenUrl}"
+                            class="rifa-image"
+                        >
+                        `
+                        :
+                        `
+                        <div class="rifa-placeholder">
+                            Sin imagen
+                        </div>
+                        `
+                    }
+
+                </div>
+
+                <div class="rifa-content">
+
+                    <div class="rifa-header">
+
+                        <span class="status-badge">
+                            ${rifa.estado}
+                        </span>
+
+                        <h2>
+                            ${rifa.titulo}
+                        </h2>
+
+                    </div>
+
+                    <p class="rifa-description">
+                        ${rifa.descripcion}
+                    </p>
+
+                    <div class="info-grid">
+
+                        <div class="info-item">
+
+                            <span>
+                                Programa
+                            </span>
+
+                            <strong>
+                                ${rifa.programaNombre}
+                            </strong>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <span>
+                                ONG
+                            </span>
+
+                            <strong>
+                                ${rifa.ongNombre}
+                            </strong>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <span>
+                                Precio Ticket
+                            </span>
+
+                            <strong>
+                                S/ ${Number(rifa.precioTicket).toFixed(2)}
+                            </strong>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <span>
+                                Tickets Vendidos
+                            </span>
+
+                            <strong>
+                                ${rifa.ticketsVendidos}/${rifa.stockTickets}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="productos-section">
+
+                        <h3>
+                            Productos Asociados
+                        </h3>
+
+                        <div class="productos-grid">
+
+                            ${empresasHtml}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+    });
+}
+
+cargarRifas();
+
+</script>
+
+</body>
+</html>

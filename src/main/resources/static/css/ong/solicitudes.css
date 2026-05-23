@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+
+    --primary: #1e48ff;
+    --secondary: #1fbcdf;
+    --accent: #23caa3;
+
+    --bg: #f5f7fb;
+    --card-bg: #ffffff;
+
+    --text: #111827;
+    --text-light: #6b7280;
+
+    --border: #e5e7eb;
+
+    --shadow:
+        0 10px 30px rgba(15, 23, 42, 0.08);
+
+    --radius: 18px;
+}
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+body {
+
+    font-family: 'Inter', sans-serif;
+
+    background:
+        linear-gradient(
+            180deg,
+            #eef4ff 0%,
+            #f8fbff 100%
+        );
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+    padding: 40px;
+}
+
+.container {
+
+    max-width: 1350px;
+
+    margin: auto;
+}
+
+/* HEADER */
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.header h1 {
+
+    font-size: 2.2rem;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+.header p {
+
+    color: var(--text-light);
+
+    font-size: 1rem;
+}
+
+/* BOTÓN DASHBOARD */
+
+.btn-dashboard {
+
+    text-decoration: none;
+
+    background: white;
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+
+    padding: 12px 18px;
+
+    border-radius: 14px;
+
+    font-weight: 600;
+
+    transition: 0.25s ease;
+
+    box-shadow: var(--shadow);
+}
+
+.btn-dashboard:hover {
+
+    border-color: var(--primary);
+
+    color: var(--primary);
+
+    transform: translateY(-2px);
+}
+
+/* ACTIONS */
+
+.actions {
+
+    margin-bottom: 28px;
+}
+
+.btn-primary {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+
+    padding: 14px 22px;
+
+    border-radius: 14px;
+
+    font-weight: 600;
+
+    transition: 0.25s ease;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color: white;
+}
+
+.btn-primary:hover {
+
+    transform: translateY(-3px);
+
+    opacity: 0.95;
+}
+
+/* TABLA */
+
+.table-container {
+
+    background: var(--card-bg);
+
+    border-radius: var(--radius);
+
+    overflow: hidden;
+
+    border: 1px solid #edf1f7;
+
+    box-shadow: var(--shadow);
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+thead {
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color: white;
+}
+
+thead th {
+
+    text-align: left;
+
+    padding: 18px;
+
+    font-size: 0.95rem;
+
+    font-weight: 600;
+}
+
+tbody tr {
+
+    border-bottom: 1px solid #f1f5f9;
+
+    transition: 0.2s ease;
+}
+
+tbody tr:hover {
+
+    background: #f8fbff;
+}
+
+tbody td {
+
+    padding: 18px;
+
+    color: #374151;
+
+    font-size: 0.95rem;
+
+    vertical-align: middle;
+}
+
+/* BADGE ESTADO */
+
+.estado-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    font-size: 0.82rem;
+
+    font-weight: 600;
+
+    background:
+        rgba(30, 72, 255, 0.10);
+
+    color: var(--primary);
+}
+
+/* EMPTY */
+
+.empty {
+
+    text-align: center;
+
+    padding: 30px !important;
+
+    color: var(--text-light);
+}
+
+.toast {
+
+    position: fixed;
+
+    top: 28px;
+    right: 28px;
+
+    min-width: 320px;
+
+    padding: 18px 22px;
+
+    border-radius: 18px;
+
+    color: white;
+
+    font-weight: 600;
+
+    z-index: 9999;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateY(-12px);
+
+    transition: 0.3s ease;
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, 0.18);
+}
+
+.toast.show.success {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateY(0);
+
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #22c55e
+        );
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+    body {
+
+        padding: 24px;
+    }
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 18px;
+    }
+
+    .table-container {
+
+        overflow-x: auto;
+    }
+
+    table {
+
+        min-width: 850px;
+    }
+}

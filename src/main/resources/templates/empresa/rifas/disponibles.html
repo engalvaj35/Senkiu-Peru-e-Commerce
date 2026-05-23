@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        Rifas Disponibles
+    </title>
+
+    <meta name="_csrf"
+          th:content="${_csrf.token}">
+
+    <meta name="_csrf_header"
+          th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/empresa/rifas-disponibles.css}">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <span class="badge">
+                Empresa
+            </span>
+
+            <h1>
+                Rifas Disponibles
+            </h1>
+
+            <p>
+                Explora rifas solidarias y asocia tus productos como premios.
+            </p>
+
+        </div>
+
+        <div class="top-actions">
+
+            <a th:href="@{/empresa/dashboard}"
+               class="btn-secondary">
+
+                Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENIDO -->
+
+    <div id="contenedor-rifas"
+         class="rifas-grid">
+
+    </div>
+
+</div>
+
+<div id="toast"
+     class="toast">
+</div>
+
+<script th:inline="javascript">
+
+    const productosEmpresa =
+        /*[[${productos}]]*/ [];
+
+</script>
+
+<script>
+function showToast(message, type = "success") {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className =
+        `toast show ${type}`;
+
+    setTimeout(() => {
+
+        toast.className = "toast";
+
+    }, 3200);
+}
+
+
+async function cargarRifas() {
+
+    const response =
+        await fetch("/api/empresa/rifas/disponibles");
+
+    const rifas =
+        await response.json();
+
+    const contenedor =
+        document.getElementById("contenedor-rifas");
+
+    contenedor.innerHTML = "";
+
+    if (rifas.length === 0) {
+
+        contenedor.innerHTML = `
+
+            <div class="empty-state">
+
+                <h2>
+                    No hay rifas disponibles
+                </h2>
+
+                <p>
+                    Actualmente no existen rifas abiertas para asociación.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    rifas.forEach(rifa => {
+
+        let opcionesProductos = "";
+
+        productosEmpresa.forEach(producto => {
+
+            opcionesProductos += `
+
+                <option value="${producto.id}">
+                    ${producto.nombre}
+                </option>
+            `;
+        });
+
+        contenedor.innerHTML += `
+
+            <div class="rifa-card">
+
+                <img
+                    src="${rifa.imagenUrl}"
+                    class="rifa-image"
+                >
+
+                <div class="rifa-content">
+
+                    <div class="rifa-header">
+
+                        <span class="status-badge">
+                            Disponible
+                        </span>
+
+                        <h2>
+                            ${rifa.titulo}
+                        </h2>
+
+                    </div>
+
+                    <p class="rifa-description">
+                        ${rifa.descripcion}
+                    </p>
+
+                    <div class="info-grid">
+
+                        <div class="info-item">
+
+                            <span>
+                                Programa
+                            </span>
+
+                            <strong>
+                                ${rifa.programaNombre}
+                            </strong>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <span>
+                                ONG
+                            </span>
+
+                            <strong>
+                                ${rifa.ongNombre}
+                            </strong>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <span>
+                                Precio Ticket
+                            </span>
+
+                            <strong>
+                                S/ ${Number(rifa.precioTicket).toFixed(2)}
+                            </strong>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <span>
+                                Productos Asociados
+                            </span>
+
+                            <strong>
+                                ${rifa.empresasAsociadas}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="associate-box">
+
+                        <select id="producto-${rifa.id}">
+
+                            ${opcionesProductos}
+
+                        </select>
+
+                        <button onclick="asociar(${rifa.id})">
+
+                            Asociar Producto
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+    });
+}
+
+async function asociar(rifaId) {
+
+    const productoId =
+        document.getElementById(
+            `producto-${rifaId}`
+        ).value;
+
+    const csrfToken =
+        document.querySelector(
+            "meta[name='_csrf']"
+        ).content;
+
+    const csrfHeader =
+        document.querySelector(
+            "meta[name='_csrf_header']"
+        ).content;
+
+    const response =
+        await fetch(
+            "/api/empresa/rifas/asociar",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    [csrfHeader]: csrfToken
+                },
+
+                credentials: "include",
+
+                body: JSON.stringify({
+                    rifaId: rifaId,
+                    productoId: productoId
+                })
+            }
+        );
+
+    if (response.ok) {
+
+        showToast(
+            "Producto asociado correctamente"
+        );
+
+        cargarRifas();
+
+    } 
+
+    let errorMessage = "Error inesperado";
+
+    try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorData.message || errorMessage;
+    } catch (e) {
+        errorMessage = await response.text();
+    }
+
+    showToast(errorMessage, "error");
+
+}
+
+cargarRifas();
+
+</script>
+
+</body>
+</html>
