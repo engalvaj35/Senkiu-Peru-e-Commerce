@@ -57,8 +57,12 @@ public class EmpresaServiceImpl implements EmpresaService {
 
         Empresa saved = repository.save(empresa);
 
-        Usuario user = sol.getUsuario();
+        Usuario user = usuarioRepository.findById(
+                sol.getUsuario().getId()
+        ).orElseThrow(() -> new RuntimeException("Usuario no existe"));
+
         user.setRol("ROLE_EMPRESA");
+
         usuarioRepository.save(user);
 
         return saved;
