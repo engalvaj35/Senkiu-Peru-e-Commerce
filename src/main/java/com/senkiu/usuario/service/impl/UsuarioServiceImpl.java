@@ -60,6 +60,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         user.setNombres(request.getNombres());
         user.setApellidoPaterno(request.getApellidoPaterno());
         user.setApellidoMaterno(request.getApellidoMaterno());
+        user.setDni(request.getDni());
+        user.setCelular(request.getCelular());
         user.setDireccion(request.getDireccion());
         user.setDistrito(request.getDistrito());
         user.setProvincia(request.getProvincia());
