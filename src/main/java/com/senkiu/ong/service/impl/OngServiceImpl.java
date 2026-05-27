@@ -33,6 +33,36 @@ public class OngServiceImpl implements OngService {
         this.estadoRepo = estadoRepo;
     }
 
+    private String extraerDescripcion(String datosJson) {
+
+        if (datosJson == null || datosJson.isBlank()) {
+                return "";
+        }
+
+        try {
+
+                int inicio = datosJson.indexOf("\"descripcion\":\"");
+
+                if (inicio == -1) {
+                return "";
+                }
+
+                inicio += 15;
+
+                int fin = datosJson.indexOf("\"", inicio);
+
+                if (fin == -1) {
+                return "";
+                }
+
+                return datosJson.substring(inicio, fin);
+
+        } catch (Exception e) {
+
+                return "";
+        }
+        }
+
     @Override
     public Ong obtenerPorUsuario(Long usuarioId) {
 
@@ -44,7 +74,7 @@ public class OngServiceImpl implements OngService {
     }
 
     @Override
-    public Ong crearDesdeSolicitud(SolicitudOrganizacion sol) {
+        public Ong crearDesdeSolicitud(SolicitudOrganizacion sol) {
 
         EstadoOrganizacion aprobado = estadoRepo.findByNombre("APROBADO")
                 .orElseThrow();
@@ -58,15 +88,29 @@ public class OngServiceImpl implements OngService {
         ong.setUsuario(sol.getUsuario());
         ong.setEstado(aprobado);
 
-        // SOLO ONG tiene info extendida
-        ong.setDescripcion(sol.getDatosJson());
+        String descripcion = extraerDescripcion(sol.getDatosJson());
+
+        ong.setDescripcion(descripcion);
 
         Ong saved = ongRepository.save(ong);
 
-        // 🔥 CAMBIO DE ROL AQUÍ
-        Usuario user = sol.getUsuario();
+        Usuario user = usuarioRepository.findById(
+                sol.getUsuario().getId()
+        ).orElseThrow();
+
+        System.out.println("ANTES: " + user.getRol());
+
         user.setRol("ROLE_ONG");
-        usuarioRepository.save(user);
+
+        System.out.println("DESPUÉS: " + user.getRol());
+
+        usuarioRepository.saveAndFlush(user);
+
+        Usuario actualizado = usuarioRepository.findById(
+                user.getId()
+        ).orElseThrow();
+
+        System.out.println("BD: " + actualizado.getRol());
 
         return saved;
         }
