@@ -1,0 +1,77 @@
+body{
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #019bff, #00bc9b);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CONTENEDOR */
+.donar-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* CARD */
+.donar-card{
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+/* TITULO */
+.donar-title{
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+/* LABEL */
+.label{
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* INPUT */
+.input{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    margin-bottom: 15px;
+    transition: 0.2s;
+}
+
+.input:focus{
+    border-color: #019bff;
+    box-shadow: 0 0 0 3px rgba(1,155,255,0.2);
+}
+
+/* BOTON */
+.btn-donar{
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg,#019bff,#00bc9b);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-donar:hover{
+    transform: scale(1.02);
+    opacity: 0.95;
+}

@@ -1,0 +1,81 @@
+/* =========================
+   RIFAS - LISTA
+========================= */
+
+.rifas-wrapper{
+    margin-top: 20px;
+}
+
+/* TITULO */
+.titulo-seccion{
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* CARD PRINCIPAL */
+.rifa-card{
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.rifa-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+/* IMAGEN */
+.rifa-img{
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* BODY */
+.rifa-body{
+    padding: 15px;
+}
+
+/* TITULO */
+.rifa-title{
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* DESCRIPCION */
+.rifa-desc{
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* META */
+.rifa-meta{
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* INFO */
+.rifa-info{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+/* PROGRESS */
+.rifas-progress{
+    height: 8px;
+    margin-top: 10px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.rifas-progress .progress-bar{
+    background: linear-gradient(90deg,#019bff,#00bc9b);
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rifas Pendientes</title>
+
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg">
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet" th:href="@{/css/admin/rifas-pendientes.css}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <header class="header">
+
+        <div class="header-info">
+            <h1>Rifas Pendientes</h1>
+            <p>Revisión y aprobación de rifas antes de su publicación en la plataforma.</p>
+        </div>
+
+        <a class="btn-back" th:href="@{/admin/rifas}">
+            ← Volver
+        </a>
+
+    </header>
+
+    <div id="contenedor-rifas" class="grid"></div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+const token = document.querySelector('meta[name="_csrf"]').content;
+const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+function showToast(msg, type = "success") {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.className = `toast show ${type}`;
+
+    setTimeout(() => {
+        toast.className = "toast";
+    }, 2500);
+}
+
+fetch("/api/admin/rifas/pendientes")
+.then(r => r.json())
+.then(data => {
+
+    const contenedor = document.getElementById("contenedor-rifas");
+
+    if (!data || data.length === 0) {
+        contenedor.innerHTML = `
+            <div class="empty-card">
+                <h2>Sin rifas pendientes</h2>
+                <p>Actualmente no se cuenta con rifas en espera de aprobación.</p>
+            </div>
+        `;
+        return;
+    }
+
+    data.forEach(rifa => {
+
+        let empresasHtml = "";
+
+        rifa.empresas.forEach(e => {
+            empresasHtml += `
+                <div class="empresa-card">
+                    <div class="empresa-header">
+                        <span class="label">Empresa: </span>
+                        <strong>${e.empresaNombre}</strong>
+                    </div>
+                    <div class="empresa-body">
+                        <span class="label">Producto: </span>
+                        <span class="value">${e.productoNombre}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        contenedor.innerHTML += `
+        <div class="card">
+
+            <h2>${rifa.titulo}</h2>
+
+            ${rifa.imagenUrl ? `<img src="${rifa.imagenUrl}" />` : ""}
+
+            <p>${rifa.descripcion}</p>
+
+            <div class="info">
+                <span><b>Programa:</b> ${rifa.programaNombre}</span>
+                <span><b>ONG:</b> ${rifa.ongNombre}</span>
+                <span><b>Tickets:</b> ${rifa.ticketsVendidos}/${rifa.stockTickets}</span>
+                <span><b>Precio:</b> S/ ${rifa.precioTicket}</span>
+            </div>
+
+            <h4>Empresas participantes</h4>
+
+            <div class="empresas-grid">
+                ${empresasHtml}
+            </div>
+
+            <div class="actions">
+                <button class="btn success" onclick="aprobar(${rifa.id})">Aprobar</button>
+                <button class="btn danger" onclick="rechazar(${rifa.id})">Rechazar</button>
+            </div>
+
+        </div>`;
+    });
+
+});
+
+async function aprobar(id) {
+
+    const res = await fetch(`/api/admin/rifas/${id}/aprobar`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+
+    if (res.ok) {
+        showToast("Rifa aprobada correctamente", "success");
+        location.reload();
+    } else {
+        showToast("Error al aprobar rifa", "error");
+    }
+}
+
+async function rechazar(id) {
+
+    const res = await fetch(`/api/admin/rifas/${id}/rechazar`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+
+    if (res.ok) {
+        showToast("Rifa rechazada", "success");
+        location.reload();
+    } else {
+        showToast("Error al rechazar rifa", "error");
+    }
+}
+
+</script>
+
+</body>
+</html>

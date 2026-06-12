@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Organizaciones</title>
+
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet" th:href="@{/css/admin/organizaciones.css}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="header-info">
+
+            <h1>Organizaciones</h1>
+
+            <p>
+                Gestión de empresas y ONGs registradas en la plataforma.
+                Cada organización cuenta con una cuenta bancaria principal.
+            </p>
+
+            <div class="legend">
+                <span class="badge info">Información centralizada</span>
+                <span class="badge warn">Acciones administrativas</span>
+            </div>
+
+        </div>
+
+        <a class="btn-back" th:href="@{/admin/dashboard}">
+            ← Volver al Dashboard
+        </a>
+
+    </header>
+
+    <!-- EMPTY STATE GLOBAL -->
+    <div th:if="${(empresas == null || empresas.isEmpty()) and (ongs == null || ongs.isEmpty())}"
+         class="empty-card">
+        <h3>No hay organizaciones registradas</h3>
+        <p>Actualmente no existen empresas ni ONGs en el sistema.</p>
+    </div>
+
+    <!-- EMPRESAS -->
+    <section class="section" th:if="${empresas != null && !empresas.isEmpty()}">
+
+        <h2>Empresas</h2>
+
+        <div class="grid">
+
+            <div class="card" th:each="e : ${empresas}">
+
+                <div class="card-top">
+
+                    <h3 th:text="${e.nombre}"></h3>
+
+                    <span class="status"
+                        th:text="${estadoFormatter.formatear(e.estado.nombre)}"
+                        th:classappend="${e.estado.nombre == 'ACTIVO'} ? 'active' : 'inactive'">
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p><strong>RUC:</strong> <span th:text="${e.ruc}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${e.email}"></span></p>
+                    <p><strong>Dirección:</strong> <span th:text="${e.direccion}"></span></p>
+
+                    <p th:if="${e.createdAt != null}">
+                        <strong>Registro:</strong>
+                        <span th:text="${#temporals.format(e.createdAt, 'dd/MM/yyyy HH:mm')}"></span>
+                    </p>
+
+                    <div class="bank-info">
+
+                        <h4>Cuenta Bancaria</h4>
+
+                        <div th:each="c : ${cuentasEmpresa}"
+                             th:if="${c.empresaId == e.id}"
+                             class="bank-card">
+
+                            <p><strong>Banco:</strong> <span th:text="${c.banco}"></span></p>
+                            <p><strong>Tipo:</strong> <span th:text="${c.tipoCuenta}"></span></p>
+                            <p><strong>Número:</strong> <span th:text="${c.numeroCuenta}"></span></p>
+                            <p><strong>CCI:</strong> <span th:text="${c.cci}"></span></p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-actions">
+
+                    <button class="btn warn"
+                            th:onclick="'suspenderEmpresa(' + ${e.id} + ')'">
+                        Suspender
+                    </button>
+
+                    <button class="btn success"
+                            th:onclick="'activarEmpresa(' + ${e.id} + ')'">
+                        Activar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ONGS -->
+    <section class="section" th:if="${ongs != null && !ongs.isEmpty()}">
+
+        <h2>ONGs</h2>
+
+        <div class="grid">
+
+            <div class="card" th:each="o : ${ongs}">
+
+                <div class="card-top">
+
+                    <h3 th:text="${o.nombre}"></h3>
+
+                    <span class="status"
+                        th:text="${estadoFormatter.formatear(o.estado.nombre)}"
+                        th:classappend="${o.estado.nombre == 'ACTIVO'} ? 'active' : 'inactive'">
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p><strong>RUC:</strong> <span th:text="${o.ruc}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${o.email}"></span></p>
+                    <p><strong>Dirección:</strong> <span th:text="${o.direccion}"></span></p>
+
+                    <div class="bank-info">
+
+                        <h4>Cuenta Bancaria</h4>
+
+                        <div th:each="c : ${cuentasOng}"
+                             th:if="${c.ongId == o.id}"
+                             class="bank-card">
+
+                            <p><strong>Banco:</strong> <span th:text="${c.banco}"></span></p>
+                            <p><strong>Tipo:</strong> <span th:text="${c.tipoCuenta}"></span></p>
+                            <p><strong>Número:</strong> <span th:text="${c.numeroCuenta}"></span></p>
+                            <p><strong>CCI:</strong> <span th:text="${c.cci}"></span></p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-actions">
+
+                    <button class="btn warn"
+                            th:onclick="'suspenderOng(' + ${o.id} + ')'">
+                        Suspender
+                    </button>
+
+                    <button class="btn success"
+                            th:onclick="'activarOng(' + ${o.id} + ')'">
+                        Activar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+<script>
+
+const token = document.querySelector('meta[name="_csrf"]').content;
+const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+async function suspenderEmpresa(id){
+    await fetch(`/admin/api/empresas/${id}/suspender`, {
+        method:"PUT",
+        headers:{[header]:token}
+    });
+    location.reload();
+}
+
+async function activarEmpresa(id){
+    await fetch(`/admin/api/empresas/${id}/activar`, {
+        method:"PUT",
+        headers:{[header]:token}
+    });
+    location.reload();
+}
+
+async function suspenderOng(id){
+    await fetch(`/admin/api/ongs/${id}/suspender`, {
+        method:"PUT",
+        headers:{[header]:token}
+    });
+    location.reload();
+}
+
+async function activarOng(id){
+    await fetch(`/admin/api/ongs/${id}/activar`, {
+        method:"PUT",
+        headers:{[header]:token}
+    });
+    location.reload();
+}
+
+</script>
+
+</body>
+</html>

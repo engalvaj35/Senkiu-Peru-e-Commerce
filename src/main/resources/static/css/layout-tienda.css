@@ -1,0 +1,230 @@
+html, body{
+    height: 100%;
+}
+
+body{
+    font-family: system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* contenido principal */
+main{
+    flex: 1;
+}
+
+/* =========================
+   HERO BASE
+========================= */
+
+.hero-header {
+    color: white;
+    padding: 100px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* TEXTO BASE */
+.hero-header h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.2;
+}
+
+.hero-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* =========================
+   HERO VARIANTS
+========================= */
+
+/* SOBRE NOSOTROS */
+.hero-about {
+    background: linear-gradient(135deg, #1e48ff, #1fbcdf);
+    min-height: 70vh;
+}
+
+/* HERO EMPRESA (Senkiu style) */
+.hero-empresa {
+    background: linear-gradient(135deg, #019bff, #00bc9b);
+    min-height: 30vh; 
+    padding: 70px 0;
+}
+
+/* HERO ONG (Senkiu style) */
+.hero-ong {
+    background: linear-gradient(135deg, #00bc9b, #019bff);
+    min-height: 30vh;
+    padding: 70px 0;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.senkiu-navbar{
+    width: 100%;
+    background: white;
+    z-index: 1050;
+}
+
+/* BOTON RESPONSIVE */
+.navbar-toggler{
+    border: none;
+    font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus{
+    box-shadow: none;
+    outline: none;
+}
+
+/* LINKS */
+.senkiu-navbar .nav-link{
+    position: relative;
+    color: black;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+/* HOVER */
+.senkiu-navbar .nav-link:hover{
+    color: #019bff;
+}
+
+/* ACTIVE */
+.senkiu-navbar .nav-link.active{
+    color: #019bff !important;
+    font-weight: 700;
+}
+
+/* UNDERLINE EFFECT */
+.senkiu-navbar .nav-link::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: #019bff;
+    transition: 0.3s;
+}
+
+.senkiu-navbar .nav-link:hover::before{
+    width: 100%;
+}
+
+/* =========================
+   DROPDOWN USER
+========================= */
+
+.dropdown-menu{
+    border-radius: 12px;
+    padding: 10px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.dropdown-item{
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: 0.2s;
+}
+
+.dropdown-item:hover{
+    background: #f5f5f5;
+}
+
+/* ICON USER */
+.dropdown-toggle i{
+    margin-right: 5px;
+}
+
+/* =========================
+   LAYOUT GLOBAL
+========================= */
+
+body{
+    padding-top: 80px;
+}
+
+/* HEADER */
+header{
+    background: linear-gradient(90deg,#019bff,#00bc9b);
+}
+
+.footer-senkiu {
+    background: linear-gradient(135deg, #1e48ff, #1fbcdf);
+    color: white;
+}
+
+.footer-senkiu h4,
+.footer-senkiu h5 {
+    font-weight: 700;
+}
+
+.footer-senkiu a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-senkiu a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.footer-senkiu hr {
+    border-color: rgba(255,255,255,0.2);
+}
+
+.footer-senkiu i {
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+/* =========================
+   FIX HERO ABOUT EN MÓVIL
+========================= */
+
+@media (max-width: 768px) {
+
+    /* 🔥 ROMPER FLEX COMPLETAMENTE */
+    .hero-header {
+        display: block !important;
+        padding: 40px 20px;
+        text-align: center;
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    /* 🔥 IMPORTANTE: quitar interferencia de Bootstrap row */
+    .hero-header .row {
+        display: block;
+    }
+
+    .hero-header .col-lg-7,
+    .hero-header .col-lg-4 {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .hero-about {
+        min-height: auto !important;
+        overflow: visible !important;
+    }
+
+    .hero-header h1 {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-header p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+}

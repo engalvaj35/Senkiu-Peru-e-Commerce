@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recarga de Créditos</title>
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-KI8DMbijtGX0fTcbdNgf8EpB3gQv7s0R5A&s" type="image/x-icon">
+    
+    <style>
+
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:linear-gradient(135deg,#f5f7fb,#eef6ff);
+            display:flex;
+            justify-content:center;
+            padding:40px 15px;
+        }
+
+        .container{
+            width:100%;
+            max-width:700px;
+            background:white;
+            border-radius:16px;
+            padding:30px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .title{
+            text-align:center;
+            font-size:28px;
+            font-weight:800;
+            color:#019bff;
+            margin-bottom:25px;
+        }
+
+        .info{
+            background:#f8fbff;
+            border-radius:12px;
+            padding:20px;
+            margin-bottom:20px;
+        }
+
+        .info p{
+            margin:10px 0;
+        }
+
+        label{
+            font-weight:600;
+            display:block;
+            margin-bottom:8px;
+        }
+
+        input[type="number"]{
+            width:100%;
+            padding:12px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            margin-bottom:20px;
+        }
+
+        .btn-pay{
+            width:100%;
+            border:none;
+            padding:14px;
+            border-radius:12px;
+            font-weight:700;
+            color:white;
+            cursor:pointer;
+            background:linear-gradient(90deg,#019bff,#00bc9b);
+        }
+
+        .btn-pay:hover{
+            opacity:.9;
+        }
+
+        .back-link{
+            display:block;
+            text-align:center;
+            margin-top:20px;
+            text-decoration:none;
+            color:#555;
+            font-weight:600;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 class="title">
+        Recarga de Créditos
+    </h1>
+
+    <div class="info">
+
+        <p><b>Límite mensual:</b> S/ 200.00</p>
+
+        <p><b>Conversión:</b> 1 Sol = 1.5 Créditos</p>
+
+        <p><b>Ejemplo:</b> S/ 100 = 150 créditos</p>
+
+    </div>
+
+    <form th:action="@{/suscripciones/recarga}" method="post">
+
+        <label>Monto a recargar</label>
+
+        <input
+                type="number"
+                name="monto"
+                min="1"
+                max="200"
+                step="0.01"
+                required>
+
+        <button
+                type="submit"
+                class="btn-pay">
+
+            Continuar al pago
+
+        </button>
+
+    </form>
+
+    <a
+            th:href="@{/suscripciones}"
+            class="back-link">
+
+        ← Volver
+
+    </a>
+
+</div>
+
+</body>
+
+</html>

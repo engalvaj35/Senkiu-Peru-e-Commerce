@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Senkiu Admin</title>
+
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+
+    <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}">
+</head>
+
+<body>
+
+<div class="dashboard-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="logo">
+                <h2>Senkiu Admin</h2>
+                <p>Panel de Control</p>
+            </div>
+
+            <nav class="menu">
+
+                <a th:href="@{/admin/usuarios}" class="menu-item">Usuarios</a>
+                <a th:href="@{/admin/organizaciones}" class="menu-item">Organizaciones</a>
+                <a th:href="@{/admin/solicitudes}" class="menu-item">Solicitudes</a>
+                <a th:href="@{/admin/aprobaciones}" class="menu-item">Aprobaciones</a>
+                <a th:href="@{/admin/donaciones}" class="menu-item">Donaciones</a>
+                <a th:href="@{/admin/rifas}" class="menu-item">Rifas</a>
+                <a th:href="@{/admin/notificaciones}" class="menu-item">Notificaciones</a>                
+            
+            </nav>
+
+        </div>
+
+        <a th:href="@{/}" class="btn-home">Volver al Inicio</a>
+
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content">
+
+        <div class="topbar">
+
+            <span class="badge">Administrador</span>
+
+            <h1>Panel de Administración</h1>
+
+            <p>
+                Control total del sistema: usuarios, solicitudes, aprobaciones y operaciones.
+            </p>
+
+        </div>
+
+        <!-- CARDS -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span>Usuarios</span>
+                <h2>Gestión</h2>
+                <p>Control de roles y estados del sistema.</p>
+            </div>
+
+            <div class="stat-card">
+                <span>Solicitudes</span>
+                <h2>Validación</h2>
+                <p>Aprobación de empresas, ONGs y contenido.</p>
+            </div>
+
+            <div class="stat-card">
+                <span>Aprobaciones</span>
+                <h2>Control</h2>
+                <p>Productos y programas en revisión.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

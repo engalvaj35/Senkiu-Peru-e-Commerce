@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Órdenes</title>
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" th:href="@{/css/layout-tienda.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/layout-tienda :: navbar}"></div>
+
+<h1>Mis Órdenes</h1>
+
+<div th:each="orden : ${ordenes}">
+
+    <hr>
+
+    <p>
+        Orden #<span th:text="${orden.id}"></span>
+    </p>
+
+    <p>
+        Empresa:
+        <span th:text="${orden.empresa.nombre}"></span>
+    </p>
+
+    <p>
+        Estado:
+        <span th:text="${orden.estado.nombre}"></span>
+    </p>
+
+    <p>
+        Total:
+        S/
+        <span th:text="${orden.total}"></span>
+    </p>
+
+    <h3>Productos</h3>
+
+    <div th:each="detalle : ${orden.detalles}">
+
+        <p th:text="${detalle.producto.nombre}"></p>
+
+        <p>
+            Cantidad:
+            <span th:text="${detalle.cantidad}"></span>
+        </p>
+
+    <div>
+
+    <h3>Entrega</h3>
+
+    <div th:if="${orden.entrega != null}">
+
+        <p>
+            Estado:
+            <span th:text="${orden.entrega.estado.nombre}"></span>
+        </p>
+
+        <p th:if="${orden.entrega.fechaEnvio != null}">
+            Fecha envío:
+            <span th:text="${orden.entrega.fechaEnvio}"></span>
+        </p>
+
+        <p th:if="${orden.entrega.fechaEntrega != null}">
+            Fecha entrega:
+            <span th:text="${orden.entrega.fechaEntrega}"></span>
+        </p>
+
+        <p th:if="${orden.entrega.comentario != null}">
+            Comentario:
+            <span th:text="${orden.entrega.comentario}"></span>
+        </p>
+
+    </div>
+
+    <div th:if="${orden.entrega == null}">
+        <p>Entrega aún no generada.</p>
+    </div>
+
+</div>
+
+</div>
+
+<div th:replace="~{fragments/layout-tienda :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>

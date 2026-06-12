@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tickets de la ONG</title>
+
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg">
+
+    <link rel="stylesheet" href="/css/ong/tickets.css">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <header class="header">
+
+        <div>
+            <h1>Tickets de la ONG</h1>
+            <p>Listado de tickets generados en las rifas de tu organización.</p>
+        </div>
+
+        <a class="btn-back" href="/ong/dashboard">
+            ← Volver al dashboard
+        </a>
+
+    </header>
+
+    <div class="table-wrapper">
+
+        <div th:if="${#maps.isEmpty(ticketsPorRifa)}"
+            class="empty-state">
+
+            <h3>No hay tickets registrados</h3>
+            <p>Todavía no hay ventas en las rifas de esta ONG.</p>
+
+        </div>
+
+        <div th:each="grupo : ${ticketsPorRifa}"
+            class="rifa-section">
+
+            <h2 class="rifa-title">
+                <span th:text="${grupo.key}"></span>
+
+                <span class="ticket-count">
+                    <span th:text="${#lists.size(grupo.value)}"></span>
+                    tickets
+                </span>
+            </h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Código Ticket</th>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="t : ${grupo.value}">
+                        <td class="code" th:text="${t.codigo}"></td>
+
+                        <td th:text="${t.usuarioNombre}"></td>
+
+                        <td th:text="${t.usuarioEmail}"></td>
+
+                        <td th:text="${#temporals.format(
+                            t.fechaCompra,
+                            'dd/MM/yyyy HH:mm'
+                        )}">
+                        </td>
+
+                        <td>
+                            <span class="status"
+                                th:text="${#strings.capitalizeWords(
+                                    #strings.replace(
+                                        t.estado,
+                                        '_',
+                                        ' '
+                                    ).toLowerCase()
+                                )}">
+                            </span>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Mis Rifas</title>
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <meta name="_csrf"
+          th:content="${_csrf.token}">
+
+    <meta name="_csrf_header"
+          th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ong/rifas-lista.css}">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="topbar">
+
+        <div>
+            <span class="badge">
+                Gestión de Rifas
+            </span>
+
+            <h1>Mis Rifas</h1>
+
+            <p>
+                Administra tus campañas solidarias y revisa su progreso.
+            </p>
+        </div>
+
+        <div class="top-actions">
+
+            <a th:href="@{/ong/rifas/crear}"
+               class="btn-primary">
+
+                Nueva Rifa
+            </a>
+
+            <a th:href="@{/ong/dashboard}"
+               class="btn-secondary">
+
+                Volver
+            </a>
+
+        </div>
+
+    </div>
+
+    <div id="rifas-container"
+         class="rifas-grid">
+
+    </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const token =
+    document.querySelector(
+        'meta[name="_csrf"]'
+    ).content;
+
+const header =
+    document.querySelector(
+        'meta[name="_csrf_header"]'
+    ).content;
+
+fetch("/api/ong/rifas")
+    .then(res => res.json())
+    .then(data => {
+
+        const container =
+            document.getElementById("rifas-container");
+
+        if (data.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="empty-state">
+
+                    <h3>
+                        No tienes rifas creadas
+                    </h3>
+
+                    <p>
+                        Comienza creando tu primera campaña solidaria.
+                    </p>
+
+                </div>
+            `;
+
+            return;
+        }
+
+        data.forEach(rifa => {
+
+            let empresasHtml = "";
+
+            if (rifa.empresas && rifa.empresas.length > 0) {
+
+                rifa.empresas.forEach(empresa => {
+
+                    empresasHtml += `
+
+                        <div class="empresa-card">
+
+                            ${
+                                empresa.productoImagen
+                                ?
+                                `
+                                    <img
+                                        src="${empresa.productoImagen}"
+                                        class="empresa-img"
+                                    >
+                                `
+                                :
+                                ""
+                            }
+
+                            <div>
+
+                                <p>
+                                    <b>Empresa:</b>
+                                    ${empresa.empresaNombre}
+                                </p>
+
+                                <p>
+                                    <b>Producto:</b>
+                                    ${empresa.productoNombre}
+                                </p>
+
+                            </div>
+
+                        </div>
+                    `;
+                });
+
+            } else {
+
+                empresasHtml =
+                    `<p class="empty-empresas">
+                        No hay empresas asociadas aún.
+                    </p>`;
+            }
+
+            const card =
+                document.createElement("div");
+
+            card.className = "rifa-card";
+
+            card.innerHTML = `
+
+                <div class="rifa-image-wrapper">
+
+                    ${
+                        rifa.imagenUrl
+                        ?
+                        `
+                            <img
+                                src="${rifa.imagenUrl}"
+                                class="rifa-image"
+                            >
+                        `
+                        :
+                        `
+                            <div class="rifa-placeholder">
+                                🎟️
+                            </div>
+                        `
+                    }
+
+                    <span class="estado-badge">
+                        ${rifa.estado
+                            ? rifa.estado
+                                .toLowerCase()
+                                .replaceAll("_", " ")
+                                .replace(/\b\w/g, l => l.toUpperCase())
+                            : "Sin estado"}
+                    </span>
+
+                </div>
+
+                <div class="rifa-content">
+
+                    <h3>
+                        ${rifa.titulo}
+                    </h3>
+
+                    <p class="rifa-description">
+                        ${rifa.descripcion}
+                    </p>
+
+                    <div class="rifa-info">
+
+                        <div>
+                            <span>Programa</span>
+                            <strong>${rifa.programaNombre}</strong>
+                        </div>
+
+                        <div>
+                            <span>Precio Ticket</span>
+                            <strong>S/ ${rifa.precioTicket}</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="progress-section">
+
+                        <div class="progress-header">
+
+                            <span>
+                                Tickets vendidos
+                            </span>
+
+                            <strong>
+                                ${rifa.ticketsVendidos}/${rifa.stockTickets}
+                            </strong>
+
+                        </div>
+
+                        <div class="progress-bar">
+
+                            <div class="progress-fill"
+                                 style="width:${rifa.progresoRifa}%">
+
+                            </div>
+
+                        </div>
+
+                        <small>
+                            ${rifa.progresoRifa.toFixed(2)}%
+                            completado
+                        </small>
+
+                    </div>
+
+                    <div class="empresas-section">
+
+                        <h4>
+                            Empresas Asociadas
+                        </h4>
+
+                        ${empresasHtml}
+
+                    </div>
+
+                    ${
+                        rifa.estado === "PENDIENTE"
+                        &&
+                        rifa.empresasAsociadas > 0
+                        ?
+                        `
+                            <button
+                                class="btn-review"
+                                onclick="enviarRevision(${rifa.id})">
+
+                                Enviar a revisión
+
+                            </button>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    });
+
+function showToast(message, type = "success") {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className =
+        `toast show ${type}`;
+
+    setTimeout(() => {
+
+        toast.className = "toast";
+
+    }, 3000);
+}
+
+async function enviarRevision(id) {
+
+    const response = await fetch(
+        `/api/ong/rifas/${id}/enviar-revision`,
+        {
+            method: "PUT",
+            headers: {
+                [header]: token
+            }
+        }
+    );
+
+    if (response.ok) {
+
+        showToast("Rifa enviada a revisión");
+
+        setTimeout(() => {
+
+            location.reload();
+
+        }, 1200);
+
+    } else {
+
+        const error = await response.text();
+
+        showToast(error, "error");
+    }
+}
+</script>
+
+</body>
+</html>

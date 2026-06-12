@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notificaciones Admin</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/admin/notificaciones.css}">
+
+    <meta name="_csrf"
+          th:content="${_csrf.token}">
+
+    <meta name="_csrf_header"
+          th:content="${_csrf.headerName}">
+</head>
+
+<body>
+
+<div class="dashboard-wrapper">
+
+    <main class="content">
+
+        <div class="page-wrapper">
+
+            <div class="topbar">
+
+                <div>
+
+                    <span class="badge">
+                        Administrador
+                    </span>
+
+                    <h1>
+                        Centro de Notificaciones
+                    </h1>
+
+                    <p>
+                        Eventos y actividades recientes del sistema.
+                    </p>
+
+                </div>
+
+                <div class="top-actions">
+
+                    <a th:href="@{/admin/dashboard}"
+                       class="btn-secondary">
+
+                        Dashboard
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div id="contenedorNotificaciones"
+                 class="notificaciones-grid">
+
+                Cargando...
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script th:src="@{/js/admin/notificaciones.js}"></script>
+
+</body>
+</html>

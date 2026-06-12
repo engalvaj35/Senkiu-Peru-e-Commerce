@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Layout Tienda</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/layout-tienda.css}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg senkiu-navbar fixed-top" th:fragment="navbar">
+    <div class="container-fluid align-items-center">
+
+        <!-- BRAND -->
+        <a class="navbar-brand me-auto" th:href="@{/}">Senkiu Perú</a>
+
+        <!-- OFFCANVAS -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Senkiu Perú</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/productos}">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/rifas}">Rifas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/sobre-nosotros}">Sobre Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/programas}">Programas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/suscripciones}">Suscripciones</a></li>
+
+                    <!-- ACCIONES LIBRES (USER ONLY) -->
+                    <li class="nav-item" sec:authorize="hasRole('USER')">
+                        <a class="nav-link text-info" th:href="@{/empresa/solicitud}">
+                            Solicitar Empresa
+                        </a>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="hasRole('USER')">
+                        <a class="nav-link text-info" th:href="@{/ong/solicitud}">
+                            Solicitar ONG
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- NO AUTH -->
+        <div sec:authorize="!isAuthenticated()" class="d-flex gap-2">
+            <a class="btn btn-primary btn-sm" th:href="@{/login}">Iniciar Sesión</a>
+            <a class="btn btn-outline-primary btn-sm" th:href="@{/auth/register}">Registro</a>
+        </div>
+
+        <div sec:authorize="isAuthenticated()" class="dropdown me-2">
+
+            <button class="btn btn-light position-relative"
+                    type="button"
+                    data-bs-toggle="dropdown">
+
+                <i class="bi bi-bell"></i>
+
+                <span id="contadorNotificaciones"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    0
+                </span>
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end"
+                id="listaNotificaciones">
+
+                <li>
+                    <span class="dropdown-item-text">
+                        Cargando...
+                    </span>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- AUTH DROPDOWN -->
+        <div sec:authorize="isAuthenticated()" class="dropdown">
+
+            <button class="btn btn-outline-dark btn-sm dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle"></i>
+                <span sec:authentication="name"></span>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+
+                <li>
+                    <a class="dropdown-item" th:href="@{/perfil}">
+                        <i class="bi bi-person"></i> Mi Perfil
+                    </a>
+                </li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- EMPRESA -->
+                <li sec:authorize="hasRole('EMPRESA')">
+                    <a class="dropdown-item text-warning" th:href="@{/empresa/dashboard}">
+                        Dashboard Empresa
+                    </a>
+                </li>
+
+                <!-- ONG -->
+                <li sec:authorize="hasRole('ONG')">
+                    <a class="dropdown-item text-success" th:href="@{/ong/dashboard}">
+                        Dashboard ONG
+                    </a>
+                </li>
+
+                <!-- ADMIN -->
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a class="dropdown-item text-danger" th:href="@{/admin/dashboard}">
+                        Panel Admin
+                    </a>
+                </li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <li>
+                    <form th:action="@{/logout}" method="post">
+                        <button class="dropdown-item text-danger">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </li>
+
+            </ul>
+        </div>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    </div>
+</nav>
+
+<footer class="footer-senkiu mt-5 py-5" th:fragment="footer">
+
+    <div class="container">
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+                <h4 class="fw-bold">Senkiu Perú</h4>
+                <p>Plataforma ecommerce con impacto social.</p>
+            </div>
+
+            <div class="col-lg-2">
+                <h5>Navegación</h5>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/rifas}">Rifas</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3">
+                <h5>Información</h5>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/sobre-nosotros}">Sobre Nosotros</a></li>
+                    <li><a th:href="@{/programas}">Programas</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3">
+                <h5>Comunidad</h5>
+                <a href="#"><i class="bi bi-facebook"></i></a>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="text-center">
+            © 2026 Senkiu Perú
+        </div>
+    </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:src="@{/js/layout-tienda.js}"></script>
+
+</body>
+</html>

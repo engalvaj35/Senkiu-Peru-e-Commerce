@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Confirmar Pago</title>
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-KI8DMbijtGX0fTcbdNgf8EpB3gQv7s0R5A&s" type="image/x-icon">
+    <style>
+
+        body{
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fb, #eef6ff);
+            display: flex;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        .container{
+            width: 100%;
+            max-width: 550px;
+
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .title{
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: #019bff;
+            margin-bottom: 20px;
+        }
+
+        .info p{
+            margin: 8px 0;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .info b{
+            color: #000;
+        }
+
+        .section-title{
+            font-weight: 700;
+            margin: 15px 0 10px;
+            color: #333;
+        }
+
+        .ticket{
+            padding: 12px 15px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: #fafafa;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket:last-child{
+            border-bottom: none;
+        }
+
+        .btn-pay{
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(90deg, #019bff, #00bc9b);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-pay:hover{
+            opacity: 0.9;
+        }
+
+        .info{
+            background: #f8fbff;
+            border: 1px solid #e6eef8;
+            border-radius: 12px;
+            padding: 18px;
+
+            width: fit-content;
+            min-width: 280px;
+
+            margin: 0 auto 20px auto;
+        }
+
+        .info p{
+            margin: 10px 0;
+            font-size: 15px;
+            color: #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info b{
+            color: #222;
+            font-weight: 700;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 class="title">Confirmar Pago</h1>
+
+    <!-- INFO PAGO -->
+    <div class="info">
+
+        <p>
+            <b>Tipo:</b>
+
+            <span th:text="${estadoFormatter.formatear(
+                    pago.tipo.name()
+            )}">
+            </span>
+        </p>
+
+        <p>
+            <b>Monto:</b>
+
+            <span th:text="'S/ ' + ${pago.monto}">
+            </span>
+        </p>
+
+        <p>
+            <b>Estado:</b>
+
+            <span th:text="${estadoFormatter.formatear(
+                    pago.estado.nombre
+            )}">
+            </span>
+        </p>
+
+    </div>
+
+    <!-- TICKETS -->
+    <div th:if="${pago.tipo.name() == 'TICKET'}">
+
+        <h3 class="section-title">Tickets asociados</h3>
+
+        <div th:each="ticket : ${pago.tickets}" class="ticket">
+
+            Código: <span th:text="${ticket.codigo}"></span>
+            |
+            Estado:
+
+            <span th:text="${estadoFormatter.formatear(
+                    ticket.estado.nombre
+            )}">
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- BOTÓN -->
+    <form th:action="@{/api/pagos/confirmar/{id}(id=${pago.id})}"
+          method="post">
+
+        <button type="submit" class="btn-pay">
+            Confirmar Pago
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

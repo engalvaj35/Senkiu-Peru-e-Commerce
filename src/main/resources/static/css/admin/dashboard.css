@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #1e48ff;
+    --secondary: #1fbcdf;
+    --accent: #23caa3;
+
+    --bg: #f4f7ff;
+    --text: #111827;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+
+    --shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+    --radius: 24px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(180deg, #f5f8ff 0%, #eef4ff 100%);
+    color: var(--text);
+}
+
+/* LAYOUT */
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR (empresa style) */
+.sidebar {
+    width: 300px;
+    background: white;
+    border-right: 1px solid var(--border);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo h2 {
+    font-size: 1.4rem;
+}
+
+.logo p {
+    color: var(--text-light);
+}
+
+/* MENU */
+.menu {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.menu-item {
+    padding: 14px 16px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    background: linear-gradient(135deg, rgba(30,72,255,0.12), rgba(31,188,223,0.12));
+    color: var(--primary);
+    transform: translateX(4px);
+}
+
+/* BUTTON */
+.btn-home {
+    margin-top: 20px;
+    padding: 14px;
+    border-radius: 14px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+/* CONTENT */
+.content {
+    flex: 1;
+    padding: 40px;
+}
+
+/* TOPBAR (ONG style) */
+.topbar .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(35,202,163,0.15);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+}
+
+.topbar h1 {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+}
+
+.topbar p {
+    color: var(--text-light);
+}
+
+/* CARDS */
+.stats-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: 0.25s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card span {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.stat-card h2 {
+    margin: 10px 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+}

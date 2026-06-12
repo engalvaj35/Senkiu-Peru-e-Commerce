@@ -1,0 +1,90 @@
+/* =========================
+   PRODUCTOS - LISTA
+========================= */
+
+.productos-wrapper{
+    margin-top: 20px;
+}
+
+/* TITULO */
+.titulo-seccion{
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+/* CARD PRODUCTO */
+.producto-card{
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.producto-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* IMAGEN */
+.producto-img{
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.modal-img{
+    height: 320px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* CUERPO */
+.producto-body{
+    padding: 15px;
+}
+
+/* NOMBRE */
+.producto-nombre{
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* PRECIO */
+.producto-precio{
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #019bff;
+    margin-bottom: 5px;
+}
+
+/* META */
+.producto-meta{
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+/* CANTIDAD */
+.cantidad-input{
+    max-width: 70px;
+}
+
+/* ACCIONES */
+.acciones{
+    margin-top: 10px;
+}
+
+/* LINK CARRITO */
+.link-carrito{
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #019bff;
+    text-decoration: none;
+}
+
+.link-carrito:hover{
+    text-decoration: underline;
+}

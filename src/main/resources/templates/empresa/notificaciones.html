@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Notificaciones</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/empresa/dashboard.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/empresa/notificaciones.css}">
+
+    <meta name="_csrf"
+          th:content="${_csrf.token}">
+
+    <meta name="_csrf_header"
+          th:content="${_csrf.headerName}">
+
+</head>
+
+<body>
+
+<div class="dashboard-wrapper">
+
+    <main class="content">
+
+        <div class="page-wrapper">
+
+            <div class="topbar">
+
+                <div>
+
+                    <span class="badge">
+                        Empresa
+                    </span>
+
+                    <h1>
+                        Centro de Notificaciones
+                    </h1>
+
+                    <p>
+                        Revisa las actividades más recientes.
+                    </p>
+
+                </div>
+
+                <div class="top-actions">
+
+                    <a th:href="@{/empresa/dashboard}"
+                    class="btn-secondary">
+
+                        Dashboard
+
+                    </a>
+
+                    <a th:href="@{/empresa/ordenes}"
+                    class="btn-secondary">
+
+                        Órdenes
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div id="contenedorNotificaciones"
+                class="notificaciones-grid">
+
+                Cargando...
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script th:src="@{/js/empresa/notificaciones.js}"></script>
+
+</body>
+</html>

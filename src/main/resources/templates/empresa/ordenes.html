@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="_csrf"
+          th:content="${_csrf.token}">
+
+    <meta name="_csrf_header"
+          th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/empresa/ordenes.css}">
+
+    <title>Órdenes Empresa</title>
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <div class="topbar">
+
+        <div>
+
+            <span class="badge">
+                Empresa
+            </span>
+
+            <h1>
+                Gestión de Órdenes
+            </h1>
+
+            <p>
+                Administra órdenes, estados y entregas de productos.
+            </p>
+
+        </div>
+
+        <div class="top-actions">
+
+            <a th:href="@{/empresa/dashboard}"
+               class="btn-secondary">
+
+                Dashboard
+            </a>
+
+            <a th:href="@{/empresa/productos}"
+               class="btn-secondary">
+
+                Productos
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- LISTA ÓRDENES -->
+
+    <div class="orders-grid">
+
+        <div th:if="${#lists.isEmpty(ordenes)}"
+            class="empty-state">
+
+            <h2>No tienes órdenes registradas</h2>
+            <p>Aún no se han generado órdenes para tu empresa.</p>
+
+        </div>
+
+        <div class="order-card"
+             th:each="orden, iter : ${ordenes}">
+
+            <div class="order-header">
+
+                <div>
+
+                    <h2>
+                        Orden #<span th:text="${iter.count}"></span>
+                    </h2>
+
+                    <p>
+                        Cliente:
+                        <strong th:text="${orden.usuario != null ?
+                                        orden.usuario.nombres :
+                                        'Invitado'}">
+                        </strong>
+                    </p>
+
+                    <p>
+                        Fecha:
+                        <strong
+                            th:text="${#temporals.format(
+                                orden.createdAt,
+                                'dd/MM/yyyy HH:mm'
+                            )}">
+                        </strong>
+                    </p>
+
+                </div>
+
+                <span class="status-badge"
+                    th:text="${estadoFormatter.formatear(
+                        orden.estado.nombre
+                    )}">
+                </span>
+
+            </div>
+
+            <div class="order-info">
+
+                <div class="section-title">
+                    Productos
+                </div>
+
+                <div class="form-box">
+
+                    <div th:each="detalle : ${orden.detalles}"
+                        style="padding:8px 0;border-bottom:1px solid #eee;">
+
+                        <strong
+                            th:text="${detalle.producto.nombre}">
+                        </strong>
+
+                        <span>
+                            x
+                            <span th:text="${detalle.cantidad}">
+                            </span>
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <small>Total</small>
+
+                    <strong>
+                        S/
+                        <span th:text="${orden.total}"></span>
+                    </strong>
+
+                </div>
+
+                <div class="info-box">
+
+                    <small>Estado</small>
+
+                    <strong th:text="${estadoFormatter.formatear(
+                            orden.estado.nombre
+                        )}">
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <!-- ESTADO ORDEN -->
+
+            <div class="section-title">
+                Actualizar Orden
+            </div>
+
+            <form
+                th:action="@{/orden/{id}/estado(id=${orden.id})}"
+                method="post"
+                class="form-box">
+
+                <select name="estado">
+
+                    <option value="PENDIENTE">
+                        Pendiente
+                    </option>
+
+                    <option value="ATENDIDO">
+                        Atendido
+                    </option>
+
+                    <option value="CANCELADO">
+                        Cancelado
+                    </option>
+
+                    <option value="COMPLETADO">
+                        Completado
+                    </option>
+
+                </select>
+
+                <button type="submit"
+                        class="btn-primary">
+
+                    Actualizar
+                </button>
+
+            </form>
+
+            <!-- ENTREGA -->
+
+            <div class="section-title">
+                Gestión de Entrega
+            </div>
+
+            <div th:if="${orden.entrega != null}">
+
+                <div class="delivery-status">
+
+                    Estado entrega:
+
+                    <strong th:text="${estadoFormatter.formatear(
+                            orden.entrega.estado.nombre
+                        )}">
+                    </strong>
+
+                </div>
+
+                <div class="delivery-status">
+
+                    Dirección:
+
+                    <strong th:text="${orden.entrega.direccion}">
+                    </strong>
+
+                </div>
+
+                <form class="formEntrega form-box"
+                      th:attr="data-orden=${orden.id}">
+
+                    <select name="estado">
+
+                        <option value="PENDIENTE">
+                            Pendiente
+                        </option>
+
+                        <option value="EN_CAMINO">
+                            En camino
+                        </option>
+
+                        <option value="ENTREGADO">
+                            Entregado
+                        </option>
+
+                    </select>
+
+                    <textarea
+                        name="comentario"
+                        placeholder="Comentario de entrega">
+                    </textarea>
+
+                    <button type="submit"
+                            class="btn-primary">
+
+                        Actualizar Entrega
+                    </button>
+
+                </form>
+
+            </div>
+
+            <div th:if="${orden.entrega == null}"
+                 class="empty-delivery">
+
+                Entrega aún no generada.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="toast"
+     class="toast">
+</div>
+
+<script>
+
+const token =
+document.querySelector('meta[name="_csrf"]')
+.getAttribute("content");
+
+const header =
+document.querySelector('meta[name="_csrf_header"]')
+.getAttribute("content");
+
+function showToast(message, type = "success") {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className =
+        `toast show ${type}`;
+
+    setTimeout(() => {
+
+        toast.className = "toast";
+
+    }, 3200);
+}
+
+document.querySelectorAll(".formEntrega")
+.forEach(form => {
+
+    form.addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+        const ordenId =
+            form.dataset.orden;
+
+        const formData =
+            new FormData(form);
+
+        const body = {
+
+            estado:
+                formData.get("estado"),
+
+            comentario:
+                formData.get("comentario")
+        };
+
+        const res =
+            await fetch(
+                `/entregas/orden/${ordenId}`,
+                {
+
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        [header]:
+                            token
+                    },
+
+                    body:
+                        JSON.stringify(body)
+                }
+            );
+
+        if (!res.ok) {
+
+            showToast("Error actualizando entrega");
+
+            return;
+        }
+
+        showToast("Entrega actualizada");
+
+        setTimeout(() => {
+
+            location.reload();
+
+        }, 1200);
+    });
+});
+
+</script>
+
+</body>
+</html>

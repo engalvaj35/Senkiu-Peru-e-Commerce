@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitudes</title>
+
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet" th:href="@{/css/admin/solicitudes.css}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div>
+
+            <h1>Solicitudes de Afiliación</h1>
+
+            <p>
+                Gestión de solicitudes enviadas por empresas y ONGs que desean formar parte de la plataforma.
+                Aquí puedes aprobar o rechazar nuevas organizaciones.
+            </p>
+
+        </div>
+
+        <a class="btn-back" th:href="@{/admin/dashboard}">
+            ← Volver al Dashboard
+        </a>
+
+    </header>
+
+    <div th:if="${solicitudes == null or solicitudes.isEmpty()}"
+        class="empty-state">
+
+        <h3>No hay solicitudes pendientes</h3>
+
+        <p>
+            En este momento no existen solicitudes de afiliación por revisar.
+        </p>
+
+    </div>
+
+    <!-- GRID -->
+    <section class="grid">
+
+        <div class="card"
+             th:each="s : ${solicitudes}"
+             th:classappend="${s.estado.nombre == 'PENDIENTE'} ? 'pending' :
+                             (${s.estado.nombre == 'APROBADO'} ? 'approved' : 'rejected')">
+
+            <!-- TOP -->
+            <div class="card-top">
+
+                <h3 th:text="${s.nombre}"></h3>
+
+                <span class="status"
+                      th:text="${s.estado.nombre}"
+                      th:classappend="${s.estado.nombre == 'PENDIENTE'} ? 'st-pending' :
+                                      (${s.estado.nombre == 'APROBADO'} ? 'st-approved' : 'st-rejected')">
+                </span>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="card-body">
+
+                <p>
+                    <strong>ID:</strong>
+                    <span th:text="${s.id}"></span>
+                </p>
+
+                <p>
+                    <strong>Tipo:</strong>
+                    <span th:text="${s.tipo}"></span>
+                </p>
+
+                <p>
+                    <strong>RUC:</strong>
+                    <span th:text="${s.ruc}"></span>
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    <span th:text="${s.email}"></span>
+                </p>
+
+                <p>
+                    <strong>Dirección:</strong>
+                    <span th:text="${s.direccion}"></span>
+                </p>
+
+                <!-- USUARIO QUE ENVÍA LA SOLICITUD -->
+                <p th:if="${s.usuario != null}">
+                    <strong>Usuario:</strong>
+                    <span th:text="${s.usuario.email}"></span>
+                </p>
+
+                <!-- FECHA -->
+                <p th:if="${s.createdAt != null}">
+                    <strong>Fecha:</strong>
+                    <span th:text="${#temporals.format(s.createdAt, 'dd/MM/yyyy HH:mm')}"></span>
+                </p>
+
+                <!-- CERTIFICADO -->
+                <div th:if="${s.certificados != null and !s.certificados.isEmpty()}"
+                    class="certificado-box">
+
+                    <p><strong>Certificado:</strong></p>
+
+                    <a th:href="${s.certificados[0].archivoUrl}" target="_blank">
+                        📄 Ver PDF
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="card-actions">
+
+                <button class="btn success"
+                        th:if="${s.estado.nombre == 'PENDIENTE'}"
+                        th:onclick="'aprobar(' + ${s.id} + ')'">
+                    Aprobar
+                </button>
+
+                <button class="btn danger"
+                        th:if="${s.estado.nombre == 'PENDIENTE'}"
+                        th:onclick="'rechazar(' + ${s.id} + ')'">
+                    Rechazar
+                </button>
+
+                <span class="info"
+                      th:if="${s.estado.nombre != 'PENDIENTE'}">
+                    Sin acciones disponibles
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+const token = document.querySelector('meta[name="_csrf"]').content;
+const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+async function aprobar(id){
+    await fetch(`/admin/api/solicitudes/${id}/aprobar`, {
+        method:"PUT",
+        headers:{[header]:token}
+    });
+    location.reload();
+}
+
+async function rechazar(id){
+    await fetch(`/admin/api/solicitudes/${id}/rechazar`, {
+        method:"PUT",
+        headers:{[header]:token}
+    });
+    location.reload();
+}
+
+</script>
+
+</body>
+</html>

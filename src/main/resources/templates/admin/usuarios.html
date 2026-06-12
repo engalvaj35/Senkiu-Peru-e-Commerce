@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Usuarios - Admin</title>
+
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+
+    <link rel="stylesheet" th:href="@{/css/admin/usuarios.css}">
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+        <div>
+            <h1>Gestión de Usuarios</h1>
+            <p>Administra roles, estados y permisos del sistema</p>
+        </div>
+
+        <a th:href="@{/admin/dashboard}" class="btn-back">
+            ← Volver
+        </a>
+
+    </header>
+
+    <!-- TABLE -->
+    <section class="table-container">
+
+        <table class="users-table">
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="u : ${usuarios}">
+
+                <td th:text="${u.id}"></td>
+                <td th:text="${u.nombres}"></td>
+                <td th:text="${u.email}"></td>
+
+                <td>
+                    <span class="badge role"
+                        th:text="${estadoFormatter.formatearRol(u.rol)}">
+                    </span>
+                </td>
+
+                <td>
+                    <span class="badge state"
+                        th:text="${estadoFormatter.formatear(u.estado)}">
+                    </span>
+                </td>
+
+                <td class="actions">
+
+                    <button class="btn admin"
+                            th:onclick="'hacerAdmin(' + ${u.id} + ')'">
+                        ADMIN
+                    </button>
+
+                    <button class="btn user"
+                            th:onclick="'hacerUser(' + ${u.id} + ')'">
+                        USER
+                    </button>
+
+                    <button class="btn warn"
+                            th:onclick="'suspenderUsuario(' + ${u.id} + ')'">
+                        Suspender
+                    </button>
+
+                    <button class="btn success"
+                            th:onclick="'activarUsuario(' + ${u.id} + ')'">
+                        Activar
+                    </button>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
+
+<script>
+
+const token = document.querySelector('meta[name="_csrf"]').content;
+const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+async function hacerAdmin(id) {
+    await fetch(`/admin/api/usuarios/${id}/rol?rol=ROLE_ADMIN`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+    location.reload();
+}
+
+async function hacerUser(id) {
+    await fetch(`/admin/api/usuarios/${id}/rol?rol=ROLE_USER`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+    location.reload();
+}
+
+async function suspenderUsuario(id) {
+    await fetch(`/admin/api/usuarios/${id}/suspender`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+    location.reload();
+}
+
+async function activarUsuario(id) {
+    await fetch(`/admin/api/usuarios/${id}/activar`, {
+        method: "PUT",
+        headers: { [header]: token }
+    });
+    location.reload();
+}
+
+</script>
+
+</body>
+</html>

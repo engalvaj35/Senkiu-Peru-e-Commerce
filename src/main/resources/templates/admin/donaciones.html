@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Donaciones</title>
+
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+
+    <link rel="stylesheet" th:href="@{/css/admin/donaciones.css}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div>
+            <h1>Donaciones Realizadas</h1>
+            <p>
+                Registro de todas las donaciones realizadas en la plataforma,
+                asociadas a programas sociales activos.
+            </p>
+        </div>
+
+        <a class="btn-back" th:href="@{/admin/dashboard}">
+            ← Volver al Dashboard
+        </a>
+
+    </header>
+
+    <!-- RESUMEN -->
+    <section class="summary-wrapper">
+
+        <div class="summary">
+
+            <div class="card">
+                <span>Total Donaciones</span>
+                <h2 th:text="${donaciones.size()}"></h2>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TABLA -->
+    <section class="table-container">
+
+        <div th:if="${donaciones == null || donaciones.isEmpty()}" class="empty-card">
+            <h2>No hay donaciones registradas</h2>
+            <p>Aún no se han realizado donaciones en la plataforma.</p>
+        </div>
+
+        <table th:if="${donaciones != null && !donaciones.isEmpty()}">
+
+            <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Programa</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="d : ${donaciones}">
+
+                <td th:text="${d.usuario.nombres}"></td>
+                <td th:text="${d.programa.nombre}"></td>
+
+                <td class="amount">
+                    S/ <span th:text="${d.monto}"></span>
+                </td>
+
+                <td th:text="${#temporals.format(d.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
+
+</body>
+</html>

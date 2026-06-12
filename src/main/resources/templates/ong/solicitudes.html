@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Solicitudes de Programas Sociales</title>
+    <link rel="icon" href="https://scontent.flim38-1.fna.fbcdn.net/v/t39.30808-6/301370567_514129550712166_921891752961438295_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=l4NrsDsVM64Q7kNvwFqxiF9&_nc_oc=AdqqvZod6ACSbWMc9-JhzAkB9ukvT8U1img3hbY4ersE3vnGwizV6mmW_OXmVFn0dyo&_nc_zt=23&_nc_ht=scontent.flim38-1.fna&_nc_gid=0SeuIHSKSJOIGzjyHP8PKA&_nc_ss=7b2a8&oh=00_Af5uQEPVEyo7vlOSdn5_sUGKws12WLg-uw7drOHr_31sqQ&oe=6A1BA100" type="image/x-icon">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ong/solicitudes.css}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h1>Mis Solicitudes</h1>
+
+            <p>
+                Consulta el estado de tus programas enviados.
+            </p>
+        </div>
+
+        <a th:href="@{/ong/dashboard}"
+           class="btn-dashboard">
+
+            Volver al dashboard
+        </a>
+
+    </div>
+
+    <div class="actions">
+
+        <a th:href="@{/ong/programas/nuevo}"
+           class="btn-primary">
+
+            Registrar Nueva Solicitud
+        </a>
+
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr th:each="solicitud : ${solicitudes}">
+
+                <td th:text="${solicitud.titulo}"></td>
+
+                <td th:text="${solicitud.descripcion}"></td>
+
+                <td>
+
+                    <span class="estado-badge"
+                        th:text="${solicitud.estado != null ?
+                        estadoFormatter.formatear(solicitud.estado.nombre) : 'Sin estado'}">
+                    </span>
+
+                </td>
+
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(solicitudes)}">
+
+                <td colspan="3"
+                    class="empty">
+
+                    No existen solicitudes registradas.
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div id="toast"
+     class="toast">
+
+</div>
+
+<script>
+
+function showToast(message, type = "success") {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className =
+        `toast show ${type}`;
+
+    setTimeout(() => {
+
+        toast.className = "toast";
+
+    }, 3200);
+}
+
+const successMessage =
+    sessionStorage.getItem("programaSuccess");
+
+if (successMessage) {
+
+    showToast(successMessage);
+
+    sessionStorage.removeItem(
+        "programaSuccess"
+    );
+}
+
+</script>
+
+</body>
+</html>
